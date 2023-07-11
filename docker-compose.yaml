@@ -8,3 +8,24 @@ services:
     tty: true
     ports:
       - "8080:8080"
+    networks:
+      - garbage-pickup-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://garbage-pickup-db:5432/garbage_pickup
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+  db:
+    image: postgres:13-bullseye
+    container_name: garbage-pickup-db
+    networks:
+      - garbage-pickup-network
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=garbage_pickup
+    ports:
+      - 5432:5432
+networks:
+  garbage-pickup-network: {}
