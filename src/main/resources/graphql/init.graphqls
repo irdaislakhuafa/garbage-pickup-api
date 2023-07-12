@@ -1,3 +1,7 @@
 type Query {
-    hello: HelloQuery!
+  hello: HelloQuery!
+}
+
+type Mutation {
+  user: UserMutation!
 }

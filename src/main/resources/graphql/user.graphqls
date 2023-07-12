@@ -1,0 +1,30 @@
+type UserMutation {
+  save(request: UserRequest!): User!
+}
+
+type User {
+  id: String!
+  name: String!
+  password: String!
+  image: String!
+  phone: String!
+  saldo: Int!
+  point: Int!
+  createdAt: String! # DD/MM/YYYY HH:MM:ss
+  createdBy: String!
+  updatedAt: String
+  updatedBy: String
+  deletedAt: String
+  deletedBy: String
+  isDeleted: Boolean!
+}
+
+input UserRequest {
+  id: String!
+  name: String!
+  password: String!
+  image: String!
+  phone: String!
+  saldo: Int!
+  point: Int!
+}

@@ -2,7 +2,7 @@
 # - https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.web
 
 spring:
-# datasource configuration
+  # datasource configuration
   datasource:
     # url: jdbc:postgresql://localhost:5432/garbage_pickup
     url: jdbc:h2:mem://garbage_pickup
@@ -22,4 +22,3 @@ spring:
       locations: classpath:graphql/**/
       printer: # if enable, schema is availabel unded graphql path + '/schema'
         enabled: false
-

@@ -1,10 +1,14 @@
-package com.irdaislakhuafa.garbagepickupapi.entities;
+package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
 import jakarta.persistence.Column;
-import lombok.Builder;
+import jakarta.persistence.Entity;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
+@Getter
+@Setter
+@Entity(name = "user")
 public class User extends BaseEntity {
 	@Column(nullable = false)
 	private String name;
