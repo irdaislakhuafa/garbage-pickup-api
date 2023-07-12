@@ -18,14 +18,26 @@ public class BaseEntity {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
+
+	@Column(nullable = false)
 	private String createdBy;
+
+	@Column(nullable = true)
 	private LocalDateTime updatedAt;
+
+	@Column(nullable = true)
 	private String updatedBy;
+
+	@Column(nullable = true)
 	private LocalDateTime deletedAt;
+
+	@Column(nullable = true)
 	private String deletedBy;
 
 	@Builder.Default
+	@Column(nullable = false)
 	private boolean isDeleted = false;
 
 	@PrePersist
