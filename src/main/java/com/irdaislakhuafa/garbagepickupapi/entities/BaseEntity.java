@@ -1,4 +1,4 @@
-package com.irdaislakhuafa.garbagepickupapi.repository.entities;
+package com.irdaislakhuafa.garbagepickupapi.entities;
 
 import java.time.LocalDateTime;
 
