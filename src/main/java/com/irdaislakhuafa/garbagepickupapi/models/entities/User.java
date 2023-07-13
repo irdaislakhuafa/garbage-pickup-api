@@ -1,15 +1,21 @@
 package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-@Getter
-@Setter
 @Entity(name = "`user`")
-public class User extends BaseEntity {
+@SuperBuilder
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements UserDetails {
 	@Column(nullable = false)
 	private String name;
 
@@ -35,4 +41,41 @@ public class User extends BaseEntity {
 	@Column(nullable = false)
 	@Builder.Default
 	private int point = 0;
+
+	@Column(nullable = false)
+	@Builder.Default
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles = new ArrayList<>();
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles.stream()
+				.map(v -> new SimpleGrantedAuthority(v.getName().toUpperCase()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getEmail();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return this.isEnabled();
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.isEnabled();
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return this.isEnabled();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
