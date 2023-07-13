@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 @Setter
-@Entity(name = "user")
+@Entity(name = "`user`")
 public class User extends BaseEntity {
 	@Column(nullable = false)
 	private String name;

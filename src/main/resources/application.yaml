@@ -4,8 +4,8 @@
 spring:
   # datasource configuration
   datasource:
-    # url: jdbc:postgresql://localhost:5432/garbage_pickup
-    url: jdbc:h2:mem://garbage_pickup
+    url: jdbc:postgresql://localhost:5432/garbage_pickup
+    # url: jdbc:h2:mem://garbage_pickup
     username: postgres
     password: postgres
   graphql:
@@ -22,3 +22,8 @@ spring:
       locations: classpath:graphql/**/
       printer: # if enable, schema is availabel unded graphql path + '/schema'
         enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update # set to "none" in production
+    show-sql: true
+    generate-ddl: true # set to false in production
