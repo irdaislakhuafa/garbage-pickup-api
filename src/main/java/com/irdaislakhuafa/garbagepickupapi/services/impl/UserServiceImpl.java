@@ -6,7 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.irdaislakhuafa.garbagepickupapi.exceptions.user.DataAlreadyExists;
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;

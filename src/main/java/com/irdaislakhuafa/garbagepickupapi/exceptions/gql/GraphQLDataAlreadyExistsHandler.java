@@ -1,15 +1,17 @@
-package com.irdaislakhuafa.garbagepickupapi.exceptions;
+package com.irdaislakhuafa.garbagepickupapi.exceptions.gql;
 
-import com.irdaislakhuafa.garbagepickupapi.exceptions.user.DataAlreadyExists;
-import graphql.GraphQLError;
-import graphql.GraphqlErrorBuilder;
-import graphql.schema.DataFetchingEnvironment;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.stereotype.Component;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
+
+import graphql.GraphQLError;
+import graphql.GraphqlErrorBuilder;
+import graphql.schema.DataFetchingEnvironment;
+
 @Component
-public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter {
+public class GraphQLDataAlreadyExistsHandler extends DataFetcherExceptionResolverAdapter {
     @Override
     protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
         if (ex instanceof DataAlreadyExists) {
@@ -20,6 +22,7 @@ public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter
                     .location(env.getField().getSourceLocation())
                     .build();
         }
+
         return null;
     }
 }

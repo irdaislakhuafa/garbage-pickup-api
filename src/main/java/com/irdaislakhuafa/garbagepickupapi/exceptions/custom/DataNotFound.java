@@ -1,4 +1,4 @@
-package com.irdaislakhuafa.garbagepickupapi.exceptions.user;
+package com.irdaislakhuafa.garbagepickupapi.exceptions.custom;
 
 public class DataNotFound extends RuntimeException {
 

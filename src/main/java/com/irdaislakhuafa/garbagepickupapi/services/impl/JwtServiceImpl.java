@@ -51,7 +51,7 @@ public class JwtServiceImpl implements JwtService<User> {
 	}
 
 	@Override
-	public Claims getClaims(String tokenString) {
+	public Claims validateAndGetClaims(String tokenString) {
 		final var claims = Jwts.parser()
 				.setSigningKey(secretKey)
 				.parseClaimsJws(tokenString)
@@ -61,14 +61,24 @@ public class JwtServiceImpl implements JwtService<User> {
 
 	@Override
 	public boolean isExpired(String tokenString) {
-		final var claims = this.getClaims(tokenString);
+		final var claims = this.validateAndGetClaims(tokenString);
+		return this.isExpired(tokenString, claims);
+	}
+
+	@Override
+	public boolean isValid(String tokenString) {
+		final var claims = this.validateAndGetClaims(tokenString);
+		return this.isValid(tokenString, claims);
+	}
+
+	@Override
+	public boolean isExpired(String tokenString, Claims claims) {
 		final var isExpired = (claims.getExpiration().before(new Date(System.currentTimeMillis())));
 		return isExpired;
 	}
 
 	@Override
-	public boolean isValid(String tokenString) {
-		final var claims = this.getClaims(tokenString);
+	public boolean isValid(String tokenString, Claims claims) {
 		final var user = this.userRepository.findById(claims.getId()).orElseThrow(() -> {
 			throw new UsernameNotFoundException("user not found");
 		});
