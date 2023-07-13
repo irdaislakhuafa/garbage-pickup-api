@@ -5,8 +5,8 @@ import java.util.Map;
 
 import io.jsonwebtoken.Claims;
 
-public interface JwtService<C> {
-	public String generateTokenString(C claimsRequest);
+public interface JwtService<CLAIMS> {
+	public String generateTokenString(CLAIMS claimsRequest);
 
 	public Claims getClaims(String tokenString);
 

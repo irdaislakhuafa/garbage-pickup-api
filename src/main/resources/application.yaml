@@ -29,3 +29,10 @@ spring:
       ddl-auto: create-drop # set to "none" in production
     show-sql: true
     generate-ddl: true # set to false in production
+
+# my custom configuration for jwt auth token
+jwt:
+  secret-key: mysecret
+  token:
+    expired-in:
+      minute: 10080 # one week
