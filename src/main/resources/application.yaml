@@ -26,6 +26,6 @@ spring:
         enabled: false
   jpa:
     hibernate:
-      ddl-auto: update # set to "none" in production
+      ddl-auto: create-drop # set to "none" in production
     show-sql: true
     generate-ddl: true # set to false in production
