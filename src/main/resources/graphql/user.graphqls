@@ -5,6 +5,7 @@ type UserMutation {
 type User {
   id: String!
   name: String!
+  email: String!
   password: String!
   image: String!
   phone: String!
@@ -20,8 +21,8 @@ type User {
 }
 
 input UserRequest {
-  id: String!
   name: String!
+  email: String!
   password: String!
   image: String!
   phone: String!
