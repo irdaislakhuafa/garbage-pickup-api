@@ -1,5 +1,5 @@
 type UserMutation {
-  save(request: UserRequest!): User!
+  save(request: UserRequest!): User
 }
 
 type User {

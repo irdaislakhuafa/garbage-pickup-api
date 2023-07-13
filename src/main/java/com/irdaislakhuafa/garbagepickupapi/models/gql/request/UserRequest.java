@@ -1,9 +1,11 @@
 package com.irdaislakhuafa.garbagepickupapi.models.gql.request;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @SuperBuilder
 public class UserRequest {
 	private String name;
