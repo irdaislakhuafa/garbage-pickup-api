@@ -25,6 +25,9 @@ public class User extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	private String phone;
 
+	@Column(nullable = false, length = 5000)
+	private String address;
+
 	@Column(nullable = false)
 	@Builder.Default
 	private int saldo = 0;

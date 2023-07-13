@@ -13,6 +13,7 @@ public class UserRequest {
 	private String password;
 	private String image;
 	private String phone;
+	private String address;
 	private int saldo = 0;
 	private int point = 0;
 }

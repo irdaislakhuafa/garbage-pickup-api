@@ -9,6 +9,7 @@ type User {
   password: String!
   image: String!
   phone: String!
+  address: String!
   saldo: Int!
   point: Int!
   createdAt: String! # DD/MM/YYYY HH:MM:ss
@@ -26,6 +27,7 @@ input UserRequest {
   password: String!
   image: String!
   phone: String!
+  address: String!
   saldo: Int!
   point: Int!
 }

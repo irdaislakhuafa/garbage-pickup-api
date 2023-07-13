@@ -1,17 +1,19 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import java.util.Optional;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.irdaislakhuafa.garbagepickupapi.exceptions.user.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService<User, UserRequest> {
                     .password(request.getPassword())
                     .image(request.getImage())
                     .phone(request.getPhone())
+                    .address(request.getAddress())
                     .saldo(request.getSaldo())
                     .point(request.getPoint())
                     .createdBy("system") // TODO: get current user id

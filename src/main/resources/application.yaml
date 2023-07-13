@@ -6,8 +6,8 @@ spring:
     name: Garbage Pickup API
   # datasource configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/garbage_pickup
-    # url: jdbc:h2:mem://garbage_pickup
+    # url: jdbc:postgresql://localhost:5432/garbage_pickup
+    url: jdbc:h2:mem://garbage_pickup
     username: postgres
     password: postgres
   graphql:
