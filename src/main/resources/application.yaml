@@ -2,6 +2,8 @@
 # - https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.web
 
 spring:
+  application:
+    name: Garbage Pickup API
   # datasource configuration
   datasource:
     url: jdbc:postgresql://localhost:5432/garbage_pickup
