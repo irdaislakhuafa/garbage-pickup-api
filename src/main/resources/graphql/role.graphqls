@@ -1,0 +1,21 @@
+type RoleMutation {
+  save(request: RoleRequest!): Role
+}
+
+type Role {
+  id: String!
+  name: String!
+  description: String!
+  createdAt: String! # DD/MM/YYYY HH:MM:ss
+  createdBy: String!
+  updatedAt: String
+  updatedBy: String
+  deletedAt: String
+  deletedBy: String
+  isDeleted: Boolean!
+}
+
+input RoleRequest {
+  name: String!
+  description: String!
+}

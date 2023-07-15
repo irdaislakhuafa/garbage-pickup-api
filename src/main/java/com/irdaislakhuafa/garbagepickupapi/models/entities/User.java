@@ -15,6 +15,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseEntity implements UserDetails {
 	@Column(nullable = false)
 	private String name;
@@ -76,6 +78,6 @@ public class User extends BaseEntity implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return !this.isDeleted();
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.*;
+import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.JwtService;
 
@@ -26,8 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Order(value = 1)
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtService<User> jwtService;
     private final UserRepository userRepository;
+    private final SimpleDateFormat dateFormatter;
 
     @Override
     protected void doFilterInternal(
@@ -55,8 +57,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         final var isExpired = this.jwtService.isExpired(token, claims);
 
                         if (isExpired) {
-                            final var formatter = new SimpleDateFormat("DD/MM/YYYY HH:MM:ss");
-                            final var expiredAt = formatter.format(claims.getExpiration());
+                            final var expiredAt = dateFormatter.format(claims.getExpiration());
                             throw new JwtTokenExpired("jwt token already expired at " + expiredAt);
                         }
 

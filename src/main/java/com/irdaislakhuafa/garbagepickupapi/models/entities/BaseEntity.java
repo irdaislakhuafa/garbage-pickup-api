@@ -2,20 +2,18 @@ package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @MappedSuperclass
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BaseEntity {
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
 
 	@Column(nullable = false)

@@ -1,5 +1,6 @@
 type UserMutation {
   save(request: UserRequest!): User
+  login(request: UserLoginRequest!): JwtTokenResponse
 }
 
 type User {
@@ -12,6 +13,7 @@ type User {
   address: String!
   saldo: Int!
   point: Int!
+  roles: [Role!]!
   createdAt: String! # DD/MM/YYYY HH:MM:ss
   createdBy: String!
   updatedAt: String
@@ -19,6 +21,12 @@ type User {
   deletedAt: String
   deletedBy: String
   isDeleted: Boolean!
+}
+
+enum Roles {
+  USER
+  COURIER
+  DEVELOPER
 }
 
 input UserRequest {
@@ -30,4 +38,15 @@ input UserRequest {
   address: String!
   saldo: Int!
   point: Int!
+  roles: [Roles!]!
+}
+
+type JwtTokenResponse {
+  message: String!
+  token: String!
+}
+
+input UserLoginRequest {
+  email: String!
+  password: String!
 }

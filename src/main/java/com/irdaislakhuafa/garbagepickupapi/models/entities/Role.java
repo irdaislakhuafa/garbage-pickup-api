@@ -9,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	private String name;
