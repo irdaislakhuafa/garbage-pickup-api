@@ -6,8 +6,8 @@ spring:
     name: Garbage Pickup API
   # datasource configuration
   datasource:
-    # url: jdbc:postgresql://localhost:5432/garbage_pickup
-    url: jdbc:h2:mem://garbage_pickup
+    url: jdbc:postgresql://localhost:5432/garbage_pickup
+    # url: jdbc:h2:mem://garbage_pickup
     username: postgres
     password: postgres
   graphql:
@@ -26,6 +26,13 @@ spring:
         enabled: false
   jpa:
     hibernate:
-      ddl-auto: create-drop # set to "none" in production
-    show-sql: true
+      ddl-auto: update # set to "none" in production
+    show-sql: false
     generate-ddl: true # set to false in production
+
+# my custom configuration for jwt auth token
+jwt:
+  secret-key: mysecret
+  token:
+    expired-in:
+      minute: 10080 # one week

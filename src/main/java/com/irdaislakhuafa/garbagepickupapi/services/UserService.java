@@ -2,8 +2,12 @@ package com.irdaislakhuafa.garbagepickupapi.services;
 
 import java.util.Optional;
 
-public interface UserService<U, R> {
-	public Optional<U> save(U user);
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-	public U fromRequestToEntity(R request);
+public interface UserService<U, R> extends UserDetailsService {
+    Optional<U> save(U user);
+
+    U fromRequestToEntity(R request);
+
+    Optional<U> getCurrentUser();
 }
