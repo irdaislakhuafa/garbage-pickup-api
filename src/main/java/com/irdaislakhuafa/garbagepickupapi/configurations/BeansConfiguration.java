@@ -1,5 +1,7 @@
 package com.irdaislakhuafa.garbagepickupapi.configurations;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,8 +13,8 @@ public class BeansConfiguration {
 		return new BCryptPasswordEncoder();
 	}
 
-	// @Bean
-	// public ModelMapper modelMapper() {
-	// return new ModelMapper();
-	// }
+	@Bean
+	public SimpleDateFormat simpleDateFormat() {
+		return new SimpleDateFormat("dd/MM/YYYY HH:MM:ss");
+	}
 }
