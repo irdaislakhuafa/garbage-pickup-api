@@ -11,7 +11,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity(name = "`user`")
+@Entity
+@Table(name = "\"user\"")
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
