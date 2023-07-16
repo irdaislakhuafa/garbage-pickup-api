@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService<User, UserRequest> {
             log.info("success save new user");
             return Optional.ofNullable(result);
         } catch (DataIntegrityViolationException e) {
-            log.error("user already exists, " + e.getMessage(), e);
+            log.error("user already exists, " + e.getMessage());
             throw new DataAlreadyExists("user already exists");
         } catch (Exception e) {
             log.error("error while save new user, " + e.getMessage(), e);

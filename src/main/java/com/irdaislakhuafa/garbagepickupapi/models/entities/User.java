@@ -45,7 +45,7 @@ public class User extends BaseEntity implements UserDetails {
 	@Builder.Default
 	private int point = 0;
 
-	@Column(nullable = false)
+	@JoinColumn(nullable = false)
 	@Builder.Default
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
