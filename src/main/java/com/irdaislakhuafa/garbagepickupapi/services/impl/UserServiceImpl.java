@@ -99,4 +99,15 @@ public class UserServiceImpl implements UserService<User, UserRequest> {
         return user;
     }
 
+    @Override
+    public Optional<User> update(User user) {
+        final var isExists = this.userRepository.existsById(user.getId());
+        if (!isExists) {
+            throw new DataNotFound("this user is not found");
+        }
+
+        final var updated = this.userRepository.save(user);
+        return Optional.ofNullable(updated);
+    }
+
 }
