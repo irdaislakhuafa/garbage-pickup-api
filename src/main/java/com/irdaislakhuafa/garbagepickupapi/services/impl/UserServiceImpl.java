@@ -15,6 +15,7 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService<User, UserRequest> {
+public class UserServiceImpl implements UserService<User> {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService<User, UserRequest> {
             }
         });
 
-        var result = User.builder()
+        final var result = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(request.getPassword())
@@ -103,11 +104,41 @@ public class UserServiceImpl implements UserService<User, UserRequest> {
     public Optional<User> update(User user) {
         final var isExists = this.userRepository.existsById(user.getId());
         if (!isExists) {
-            throw new DataNotFound("this user is not found");
+            throw new DataNotFound(String.format("user with id '%s' not found, please register first", user.getId()));
         }
 
         final var updated = this.userRepository.save(user);
         return Optional.ofNullable(updated);
+    }
+
+    @Override
+    public User fromUpdateRequestToEntity(UserUpdateRequest request) {
+        final var roles = new ArrayList<Role>();
+        request.getRoles().forEach(v -> {
+            final var role = roleRepository.findByNameEqualsIgnoreCase(v.name());
+            if (role.isPresent()) {
+                roles.add(role.get());
+            } else {
+                throw new DataNotFound("role with name '" + v.name() + "'' not found");
+            }
+        });
+
+        final var user = User.builder()
+                .id(request.getId())
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .image(request.getImage())
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .saldo(request.getSaldo())
+                .point(request.getPoint())
+                .roles(roles)
+                .isDeleted(request.isDeleted())
+                .createdBy(this.getCurrentUser().get().getId())
+                .build();
+
+        return user;
     }
 
 }

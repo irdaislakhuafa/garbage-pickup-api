@@ -1,5 +1,6 @@
 type UserMutation {
   save(request: UserRequest!): User
+  update(request: UserUpdateRequest): User
   login(request: UserLoginRequest!): JwtTokenResponse
 }
 
@@ -49,4 +50,18 @@ type JwtTokenResponse {
 input UserLoginRequest {
   email: String!
   password: String!
+}
+
+input UserUpdateRequest {
+  id: String!
+  name: String!
+  email: String!
+  password: String!
+  image: String!
+  phone: String!
+  address: String!
+  saldo: Int!
+  point: Int!
+  roles: [Roles!]!
+  isDeleted: Boolean!
 }

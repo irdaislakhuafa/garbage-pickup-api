@@ -9,7 +9,6 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.RoleRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.RoleService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
@@ -22,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService<Role> {
 	private final RoleRepository roleRepository;
-	private final UserService<User, UserRequest> userService;
+	private final UserService<User> userService;
 
 	@Override
 	public Optional<Role> save(Role request) {

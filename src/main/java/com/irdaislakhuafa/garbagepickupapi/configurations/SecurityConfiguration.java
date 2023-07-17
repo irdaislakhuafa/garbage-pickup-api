@@ -3,8 +3,8 @@ package com.irdaislakhuafa.garbagepickupapi.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.irdaislakhuafa.garbagepickupapi.filters.JwtFilter;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	private final BCryptPasswordEncoder passwordEncoder;
-	private final UserService<User, UserRequest> userService;
+	private final UserService<User> userService;
 	private final JwtFilter jwtFilter;
 
 	@Bean
@@ -59,7 +58,17 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
-		return auth.getAuthenticationManager();
+	public AuthenticationManager authenticationManager(
+			UserService<User> userService,
+			BCryptPasswordEncoder passwordEncoder) throws Exception {
+
+		final var provider = new DaoAuthenticationProvider() {
+			{
+				setUserDetailsService(userService);
+				setPasswordEncoder(passwordEncoder);
+			}
+		};
+
+		return new ProviderManager(provider);
 	}
 }

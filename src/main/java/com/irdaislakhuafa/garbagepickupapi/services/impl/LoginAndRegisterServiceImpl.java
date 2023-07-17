@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +64,8 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 		 * will throws org.springframework.security.core.AuthenticationException if
 		 * authentication is failed
 		 */
-
 		// try {
-		// var auth = this.authenticationManager.authenticate(authentication);
+		// this.authenticationManager.authenticate(authentication);
 		// } catch (Exception e) {
 		// log.info(authentication + "");
 		// e.printStackTrace();

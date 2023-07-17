@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @SchemaMapping(typeName = "UserMutation")
 @RequiredArgsConstructor
 public class UserMutation {
-	private final UserService<User, UserRequest> userService;
+	private final UserService<User> userService;
 	private final LoginAndRegisterService loginAndRegisterService;
 
 	@SchemaMapping
