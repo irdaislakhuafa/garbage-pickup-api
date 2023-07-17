@@ -4,6 +4,10 @@ type UserMutation {
     login(request: UserLoginRequest!): JwtTokenResponse
 }
 
+type UserQuery {
+    findById(id: String!): User
+}
+
 type User {
     id: String!
     name: String!

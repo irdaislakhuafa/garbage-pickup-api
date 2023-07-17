@@ -23,4 +23,6 @@ public interface UserService<U> extends UserDetailsService {
     U getCurrentUser();
 
     U fromUpdateRequestToEntity(UserUpdateRequest request);
+
+    U findById(String id);
 }

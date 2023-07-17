@@ -1,20 +1,25 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql;
 
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
+import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-
-import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
-
-import lombok.RequiredArgsConstructor;
 
 @Controller
 @SchemaMapping(typeName = "Query")
 @RequiredArgsConstructor
 public class GraphQLQuery {
-	private final HelloQuery hello;
+    private final HelloQuery hello;
+    private final UserQuery user;
 
-	@SchemaMapping(field = "hello")
-	public HelloQuery helloQuery() {
-		return this.hello;
-	}
+    @SchemaMapping(field = "hello")
+    public HelloQuery helloQuery() {
+        return this.hello;
+    }
+
+    @SchemaMapping(field = "user")
+    public UserQuery userQuery() {
+        return this.user;
+    }
 }

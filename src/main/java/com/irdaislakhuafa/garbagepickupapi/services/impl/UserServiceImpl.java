@@ -151,4 +151,12 @@ public class UserServiceImpl implements UserService<User> {
         return result;
     }
 
+    @Override
+    public User findById(String id) {
+        final var user = this.userRepository.findById(id).orElseThrow(() -> {
+            throw new DataNotFound(String.format("user with id '%s' not found", id));
+        });
+        return user;
+    }
+
 }
