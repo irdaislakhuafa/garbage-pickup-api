@@ -1,67 +1,66 @@
 type UserMutation {
-  save(request: UserRequest!): User
-  update(request: UserUpdateRequest): User
-  login(request: UserLoginRequest!): JwtTokenResponse
+    save(request: UserRequest!): User
+    update(request: UserUpdateRequest): User
+    login(request: UserLoginRequest!): JwtTokenResponse
 }
 
 type User {
-  id: String!
-  name: String!
-  email: String!
-  password: String!
-  image: String!
-  phone: String!
-  address: String!
-  saldo: Int!
-  point: Int!
-  roles: [Role!]!
-  createdAt: String! # DD/MM/YYYY HH:MM:ss
-  createdBy: String!
-  updatedAt: String
-  updatedBy: String
-  deletedAt: String
-  deletedBy: String
-  isDeleted: Boolean!
+    id: String!
+    name: String!
+    email: String!
+    password: String!
+    image: String!
+    phone: String!
+    address: String!
+    saldo: Int!
+    point: Int!
+    roles: [Role!]!
+    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdBy: String!
+    updatedAt: String
+    updatedBy: String
+    deletedAt: String
+    deletedBy: String
+    isDeleted: Boolean!
 }
 
 enum Roles {
-  USER
-  COURIER
-  DEVELOPER
+    USER
+    COURIER
+    DEVELOPER
 }
 
 input UserRequest {
-  name: String!
-  email: String!
-  password: String!
-  image: String!
-  phone: String!
-  address: String!
-  saldo: Int!
-  point: Int!
-  roles: [Roles!]!
+    name: String!
+    email: String!
+    password: String!
+    image: String!
+    phone: String!
+    address: String!
+    saldo: Int!
+    point: Int!
+    roles: [Roles!]!
 }
 
 type JwtTokenResponse {
-  message: String!
-  token: String!
+    message: String!
+    token: String!
 }
 
 input UserLoginRequest {
-  email: String!
-  password: String!
+    email: String!
+    password: String!
 }
 
 input UserUpdateRequest {
-  id: String!
-  name: String!
-  email: String!
-  password: String!
-  image: String!
-  phone: String!
-  address: String!
-  saldo: Int!
-  point: Int!
-  roles: [Roles!]!
-  isDeleted: Boolean!
+    id: String!
+    name: String!
+    email: String!
+    image: String!
+    phone: String!
+    address: String!
+    saldo: Int!
+    point: Int!
+    roles: [Roles!]!
+    isDeleted: Boolean!
 }

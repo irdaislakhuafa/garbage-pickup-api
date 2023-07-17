@@ -1,15 +1,5 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
@@ -19,9 +9,18 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService<User> {
                 .saldo(request.getSaldo())
                 .point(request.getPoint())
                 .roles(roles)
-                .createdBy(this.getCurrentUser().get().getId())
+                .createdBy(this.getCurrentUser().getId())
                 .build();
 
         return result;
@@ -88,27 +87,39 @@ public class UserServiceImpl implements UserService<User> {
     }
 
     @Override
-    public Optional<User> getCurrentUser() {
+    public User getCurrentUser() {
         final var authentication = SecurityContextHolder.getContext().getAuthentication();
         final var user = this.userRepository.findByEmail(authentication.getName());
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             final var defaultUser = User.builder()
                     .id("system")
                     .build();
-            return Optional.ofNullable(defaultUser);
+            return defaultUser;
         }
-        return user;
+        return user.get();
     }
 
     @Override
-    public Optional<User> update(User user) {
-        final var isExists = this.userRepository.existsById(user.getId());
-        if (!isExists) {
-            throw new DataNotFound(String.format("user with id '%s' not found, please register first", user.getId()));
+    public Optional<User> update(User request) {
+        final var user = this.userRepository.findById(request.getId());
+        if (user.isEmpty()) {
+            throw new DataNotFound(String.format("user with id '%s' not found, please register first", request.getId()));
         }
 
-        final var updated = this.userRepository.save(user);
-        return Optional.ofNullable(updated);
+        user.get().setName(request.getName());
+        user.get().setEmail(request.getEmail());
+        user.get().setImage(request.getImage());
+        user.get().setPhone(request.getPhone());
+        user.get().setAddress(request.getAddress());
+        user.get().setSaldo(request.getSaldo());
+        user.get().setPoint(request.getPoint());
+        user.get().setRoles(request.getRoles());
+        user.get().setDeleted(request.isDeleted());
+        user.get().setUpdatedBy(this.getCurrentUser().getId());
+        user.get().setUpdatedAt(LocalDateTime.now());
+
+        final var updated = this.userRepository.save(user.get());
+        return Optional.of(updated);
     }
 
     @Override
@@ -123,11 +134,10 @@ public class UserServiceImpl implements UserService<User> {
             }
         });
 
-        final var user = User.builder()
+        final var result = User.builder()
                 .id(request.getId())
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword())
                 .image(request.getImage())
                 .phone(request.getPhone())
                 .address(request.getAddress())
@@ -135,10 +145,10 @@ public class UserServiceImpl implements UserService<User> {
                 .point(request.getPoint())
                 .roles(roles)
                 .isDeleted(request.isDeleted())
-                .createdBy(this.getCurrentUser().get().getId())
+                .updatedBy(this.getCurrentUser().getId())
                 .build();
 
-        return user;
+        return result;
     }
 
 }
