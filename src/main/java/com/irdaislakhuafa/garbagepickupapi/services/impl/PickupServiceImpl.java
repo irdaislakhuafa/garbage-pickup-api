@@ -2,6 +2,7 @@ package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
+import com.irdaislakhuafa.garbagepickupapi.helpers.DistanceCalculatorHelper;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
@@ -25,6 +26,7 @@ public class PickupServiceImpl implements PickupService {
     private final UserRepository userRepository;
     private final TrashTypeRepository trashTypeRepository;
     private final UserService userService;
+    private final DistanceCalculatorHelper distanceCalculatorHelper;
 
     @Value(value = "${app.resi.prefix}")
     private String appResiPrefix;
@@ -59,6 +61,7 @@ public class PickupServiceImpl implements PickupService {
         }
 
 //        TODO: added logic how to assign pickup to courier
+//        this.userRepository.find
 
         final var result = Pickup.builder()
                 .resi(this.appResiPrefix)
