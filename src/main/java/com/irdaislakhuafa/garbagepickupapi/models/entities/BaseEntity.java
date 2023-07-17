@@ -1,11 +1,14 @@
 package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @MappedSuperclass
@@ -13,44 +16,44 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseEntity implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-	@Column(nullable = false)
-	private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
-	@Column(nullable = false)
-	private String createdBy;
+    @Column(nullable = false)
+    private String createdBy;
 
-	@Column(nullable = true)
-	private LocalDateTime updatedAt;
+    @Column
+    private LocalDateTime updatedAt;
 
-	@Column(nullable = true)
-	private String updatedBy;
+    @Column
+    private String updatedBy;
 
-	@Column(nullable = true)
-	private LocalDateTime deletedAt;
+    @Column
+    private LocalDateTime deletedAt;
 
-	@Column(nullable = true)
-	private String deletedBy;
+    @Column
+    private String deletedBy;
 
-	@Builder.Default
-	@Column(nullable = false)
-	private boolean isDeleted = false;
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 
-	@PrePersist
-	public void prePersist() {
-		this.createdAt = LocalDateTime.now();
-	}
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
-	@PreUpdate
-	public void preUpdate() {
-		this.updatedAt = LocalDateTime.now();
-	}
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
-	@PreRemove
-	public void preRemove() {
-		this.deletedAt = LocalDateTime.now();
-	}
+    @PreRemove
+    public void preRemove() {
+        this.deletedAt = LocalDateTime.now();
+    }
 }

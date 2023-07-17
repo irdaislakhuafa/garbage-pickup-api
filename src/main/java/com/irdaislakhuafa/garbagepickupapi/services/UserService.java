@@ -1,13 +1,26 @@
 package com.irdaislakhuafa.garbagepickupapi.services;
 
-import java.util.Optional;
-
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService<U, R> extends UserDetailsService {
-    Optional<U> save(U user);
+import java.util.Optional;
 
-    U fromRequestToEntity(R request);
+public interface UserService<U> extends UserDetailsService {
+    /**
+     * @param request will save or create new user with encoded password (encoded with BCryptPasswordEncoder)
+     */
+    Optional<U> save(U request);
 
-    Optional<U> getCurrentUser();
+
+    /**
+     * @param request not update some field {password, createdAt, createdBy, deletedAt, deletedBy}
+     */
+    Optional<U> update(U request);
+
+    U fromRequestToEntity(UserRequest request);
+
+    U getCurrentUser();
+
+    U fromUpdateRequestToEntity(UserUpdateRequest request);
 }

@@ -14,8 +14,8 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserLoginRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
+import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
 import com.irdaislakhuafa.garbagepickupapi.services.JwtService;
-import com.irdaislakhuafa.garbagepickupapi.services.LoginAndRegisterService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
+public class AuthServiceImpl implements AuthService {
 	private final UserRepository userRepository;
 	private final AuthenticationManager authenticationManager;
 	private final JwtService<User> jwtService;
@@ -45,7 +45,7 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 
 		// if user is disabled/deleted
 		if (!user.get().isEnabled()) {
-			throw new UserNotAvailable("the user currenly not available or disabled, please contact admin");
+			throw new UserNotAvailable("the user currently not available or disabled, please contact admin");
 		}
 
 		// is password match?
@@ -63,9 +63,8 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 		 * will throws org.springframework.security.core.AuthenticationException if
 		 * authentication is failed
 		 */
-
 		// try {
-		// var auth = this.authenticationManager.authenticate(authentication);
+		// this.authenticationManager.authenticate(authentication);
 		// } catch (Exception e) {
 		// log.info(authentication + "");
 		// e.printStackTrace();
@@ -85,5 +84,4 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 
 		return result;
 	}
-
 }
