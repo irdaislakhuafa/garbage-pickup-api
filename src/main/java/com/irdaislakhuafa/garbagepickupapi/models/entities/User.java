@@ -54,7 +54,7 @@ public class User extends BaseEntity implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles.stream()
 				.map(v -> new SimpleGrantedAuthority(v.getName().toUpperCase()))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 	}
 
 	@Override

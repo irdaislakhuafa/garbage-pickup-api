@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +45,7 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 
 		// if user is disabled/deleted
 		if (!user.get().isEnabled()) {
-			throw new UserNotAvailable("the user currenly not available or disabled, please contact admin");
+			throw new UserNotAvailable("the user currently not available or disabled, please contact admin");
 		}
 
 		// is password match?
@@ -85,5 +84,4 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 
 		return result;
 	}
-
 }

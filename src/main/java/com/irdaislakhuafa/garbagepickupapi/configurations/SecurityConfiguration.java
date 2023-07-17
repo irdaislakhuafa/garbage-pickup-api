@@ -27,7 +27,9 @@ public class SecurityConfiguration {
 	private final JwtFilter jwtFilter;
 
 	@Bean
-	public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public DefaultSecurityFilterChain securityFilterChain(
+			HttpSecurity http,
+			DaoAuthenticationProvider provider) throws Exception {
 
 		// disable csrf
 		http.csrf(t -> {
@@ -40,35 +42,30 @@ public class SecurityConfiguration {
 		});
 
 		// set authentication provider
-		http.authenticationProvider(new DaoAuthenticationProvider() {
-			{
-				setPasswordEncoder(passwordEncoder);
-				setUserDetailsService(userService);
-			}
-		});
+		http.authenticationProvider(provider);
 
 		// disable session because we use jwt auth token
 		http.sessionManagement(s -> {
 			s.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		});
 
+		// added jwt filter
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(
-			UserService<User> userService,
-			BCryptPasswordEncoder passwordEncoder) throws Exception {
+	public AuthenticationManager authenticationManager(DaoAuthenticationProvider provider) throws Exception {
+		final var manager = new ProviderManager(provider);
+		return manager;
+	}
 
-		final var provider = new DaoAuthenticationProvider() {
-			{
-				setUserDetailsService(userService);
-				setPasswordEncoder(passwordEncoder);
-			}
-		};
-
-		return new ProviderManager(provider);
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		final var provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(passwordEncoder);
+		provider.setUserDetailsService(userService);
+		return provider;
 	}
 }
