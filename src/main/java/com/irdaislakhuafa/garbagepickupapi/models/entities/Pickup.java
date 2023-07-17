@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity(name = "pickup")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class Pickup extends BaseEntity {
     @Column(nullable = false)

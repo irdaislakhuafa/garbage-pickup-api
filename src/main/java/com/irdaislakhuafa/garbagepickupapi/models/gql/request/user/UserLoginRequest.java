@@ -12,8 +12,6 @@ import lombok.experimental.SuperBuilder;
 public class UserLoginRequest {
     private String email;
     private String password;
-
-    public enum UserRoles {
-        USER, COURIER, DEVELOPER
-    }
+    private double lat;
+    private double lng;
 }

@@ -24,5 +24,5 @@ public class UserRequest {
     @Builder.Default
     private int point = 0;
     @Builder.Default
-    private ArrayList<UserLoginRequest.UserRoles> roles = new ArrayList<>();
+    private ArrayList<UserRoles> roles = new ArrayList<>();
 }

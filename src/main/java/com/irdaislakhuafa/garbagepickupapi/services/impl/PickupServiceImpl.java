@@ -5,11 +5,16 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
+import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
+import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.PickupService;
+import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,6 +22,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PickupServiceImpl implements PickupService {
     private final PickupRepository pickupRepository;
+    private final UserRepository userRepository;
+    private final TrashTypeRepository trashTypeRepository;
+    private final UserService userService;
+
+    @Value(value = "${app.resi.prefix}")
+    private String appResiPrefix;
 
     @Override
     public Optional<Pickup> save(Pickup request) {
@@ -37,6 +48,31 @@ public class PickupServiceImpl implements PickupService {
 
     @Override
     public Pickup fromRequestToEntity(PickupRequest request) {
+        final var user = this.userRepository.findById(request.getUserId());
+        if (user.isEmpty()) {
+            throw new BadRequestException(String.format("user with id '%s' not found", request.getUserId()));
+        }
+
+        final var trashType = this.trashTypeRepository.findById(request.getTrashTypeId());
+        if (trashType.isEmpty()) {
+            throw new BadRequestException(String.format("trash type with id '%s' not found", request.getTrashTypeId()));
+        }
+
+//        TODO: added logic how to assign pickup to courier
+
+        final var result = Pickup.builder()
+                .resi(this.appResiPrefix)
+                .user(user.get())
+//                .courier()
+                .status(request.getStatus())
+                .weight(request.getWeight())
+                .place(request.getPlace())
+                .trashType(trashType.get())
+                .description(request.getDescription())
+                .createdAt(LocalDateTime.now())
+                .createdBy(this.userService.getCurrentUser().getId())
+                .build();
+
         return null;
     }
 

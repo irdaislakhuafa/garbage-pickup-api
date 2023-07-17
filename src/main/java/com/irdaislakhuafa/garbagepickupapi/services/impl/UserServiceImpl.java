@@ -3,10 +3,12 @@ package com.irdaislakhuafa.garbagepickupapi.services.impl;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
+import com.irdaislakhuafa.garbagepickupapi.models.entities.LastLocation;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.repository.LastLocationRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
@@ -30,13 +32,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final LastLocationRepository lastLocationRepository;
 
     @Override
     public Optional<User> save(User user) {
         try {
             log.info("saving new user");
 
+            final var lastLocation = this.lastLocationRepository.save(LastLocation.builder().build());
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setLastLocation(lastLocation);
+
             final var result = this.userRepository.save(user);
 
             return Optional.ofNullable(result);
