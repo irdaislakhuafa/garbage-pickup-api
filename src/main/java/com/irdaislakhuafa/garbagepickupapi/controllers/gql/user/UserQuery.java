@@ -13,7 +13,7 @@ import java.util.Optional;
 @SchemaMapping(typeName = "UserQuery")
 @RequiredArgsConstructor
 public class UserQuery {
-    private final UserService<User> userService;
+    private final UserService userService;
 
     @SchemaMapping
     public Optional<User> findById(@Argument(name = "id") String id) {

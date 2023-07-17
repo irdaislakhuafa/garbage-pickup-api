@@ -1,10 +1,10 @@
-#type PickupMutation {
-#
-#}
+type PickupMutation {
+    save(request: PickupRequest!): Pickup
+}
 
-#type PickupQuery {
-#
-#}
+type PickupQuery {
+    findAllByUserId(userId: String!): [Pickup!]
+}
 
 type Pickup {
     id: String!
@@ -28,4 +28,13 @@ enum PickupStatus {
     COMPLETED
     DELIVERY
     IN_QUEUE
+}
+
+input PickupRequest {
+    userId: String!
+    status: PickupStatus!
+    weight: Int!
+    place: String!
+    trashTypeId: String!
+    description: String!
 }

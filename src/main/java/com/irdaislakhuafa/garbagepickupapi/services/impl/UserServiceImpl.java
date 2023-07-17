@@ -1,11 +1,12 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService<User> {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
@@ -36,17 +37,14 @@ public class UserServiceImpl implements UserService<User> {
             log.info("saving new user");
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            var result = this.userRepository.save(user);
+            final var result = this.userRepository.save(user);
 
-            log.info("success save new user");
             return Optional.ofNullable(result);
         } catch (DataIntegrityViolationException e) {
-            log.error("user already exists, " + e.getMessage());
             throw new DataAlreadyExists("user already exists");
         } catch (Exception e) {
-            log.error("error while save new user, " + e.getMessage(), e);
+            throw new BadRequestException(e.getMessage());
         }
-        return Optional.empty();
     }
 
     @Override

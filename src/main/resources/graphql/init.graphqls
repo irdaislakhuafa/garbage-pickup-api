@@ -1,9 +1,11 @@
 type Query {
     hello: HelloQuery!
     user: UserQuery!
+    pickup: PickupQuery!
 }
 
 type Mutation {
     user: UserMutation!
     role: RoleMutation!
+    pickup: PickupMutation!
 }

@@ -1,9 +1,11 @@
 package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "pickup")
 @NoArgsConstructor
@@ -11,31 +13,31 @@ import lombok.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Pickup extends BaseEntity {
-	@Column(nullable = false)
-	private String resi;
+    @Column(nullable = false)
+    private String resi;
 
-	@JoinColumn(nullable = false)
-	@ManyToOne
-	private User user;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private User user;
 
-	@JoinColumn(nullable = false)
-	@ManyToOne
-	private User courier;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private User courier;
 
-	@Column(nullable = false)
-	@Enumerated(value = EnumType.STRING)
-	private PickupStatus status;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private PickupStatus status;
 
-	@Column(nullable = true)
-	private int weight; // in KG
+    @Column
+    private int weight; // in KG
 
-	@Column(length = 5000, nullable = false)
-	private String place;
+    @Column(length = 5000, nullable = false)
+    private String place;
 
-	@JoinColumn(nullable = false)
-	@ManyToOne
-	private TrashType trashType;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private TrashType trashType;
 
-	@Column(nullable = false)
-	private String description;
+    @Column(nullable = false)
+    private String description;
 }

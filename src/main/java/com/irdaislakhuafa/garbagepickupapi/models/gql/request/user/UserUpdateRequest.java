@@ -1,6 +1,5 @@
-package com.irdaislakhuafa.garbagepickupapi.models.gql.request;
+package com.irdaislakhuafa.garbagepickupapi.models.gql.request.user;
 
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.utils.UserRoles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,6 @@ public class UserUpdateRequest {
     @Builder.Default
     private int point = 0;
     @Builder.Default
-    private ArrayList<UserRoles> roles = new ArrayList<>();
+    private ArrayList<UserLoginRequest.UserRoles> roles = new ArrayList<>();
     private boolean isDeleted;
 }
