@@ -1,18 +1,13 @@
 package com.irdaislakhuafa.garbagepickupapi.services;
 
-import java.util.Optional;
-
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
-
 public interface UserServiceTest<U> {
-	Optional<U> save(U user);
+	void testSave();
 
-	Optional<U> update(U user);
+	void testUpdate();
 
-	U fromRequestToEntity(UserRequest request);
+	void testFromRequestToEntity();
 
-	Optional<U> getCurrentUser();
+	void testGetCurrentUser();
 
-	U fromUpdateRequestToEntity(UserUpdateRequest request);
+	void testFromUpdateRequestToEntity();
 }
