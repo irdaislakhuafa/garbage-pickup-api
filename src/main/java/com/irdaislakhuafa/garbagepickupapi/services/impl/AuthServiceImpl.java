@@ -14,8 +14,8 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserLoginRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
+import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
 import com.irdaislakhuafa.garbagepickupapi.services.JwtService;
-import com.irdaislakhuafa.garbagepickupapi.services.LoginAndRegisterService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
+public class AuthServiceImpl implements AuthService {
 	private final UserRepository userRepository;
 	private final AuthenticationManager authenticationManager;
 	private final JwtService<User> jwtService;

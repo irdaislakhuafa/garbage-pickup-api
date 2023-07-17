@@ -8,9 +8,9 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
 
 public interface UserService<U> extends UserDetailsService {
-    Optional<U> save(U user);
+    Optional<U> save(U request);
 
-    Optional<U> update(U user);
+    Optional<U> update(U request);
 
     U fromRequestToEntity(UserRequest request);
 

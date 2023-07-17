@@ -10,7 +10,7 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserLoginRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
-import com.irdaislakhuafa.garbagepickupapi.services.LoginAndRegisterService;
+import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserMutation {
 	private final UserService<User> userService;
-	private final LoginAndRegisterService loginAndRegisterService;
+	private final AuthService loginAndRegisterService;
 
 	@SchemaMapping
 	public Optional<User> save(@Argument(name = "request") UserRequest request) {
