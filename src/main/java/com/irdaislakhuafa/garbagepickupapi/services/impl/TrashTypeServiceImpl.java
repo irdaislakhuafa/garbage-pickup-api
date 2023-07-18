@@ -8,13 +8,16 @@ import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.TrashTypeService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TrashTypeServiceImpl implements TrashTypeService {
     private final UserService userService;
     private final TrashTypeRepository trashTypeRepository;
@@ -61,5 +64,11 @@ public class TrashTypeServiceImpl implements TrashTypeService {
     @Override
     public TrashType fromUpdateRequestToEntity(TrashTypeUpdateRequest request) {
         return null;
+    }
+
+    @Override
+    public List<TrashType> findAll() {
+        final var results = this.trashTypeRepository.findAll();
+        return results;
     }
 }

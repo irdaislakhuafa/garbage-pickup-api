@@ -1,6 +1,7 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql;
 
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 public class GraphQLQuery {
     private final HelloQuery hello;
     private final UserQuery user;
+    private final TrashTypeQuery trashType;
 
     @SchemaMapping(field = "hello")
     public HelloQuery helloQuery() {
@@ -21,5 +23,10 @@ public class GraphQLQuery {
     @SchemaMapping(field = "user")
     public UserQuery userQuery() {
         return this.user;
+    }
+
+    @SchemaMapping(field = "trashType")
+    public TrashTypeQuery trashType() {
+        return this.trashType;
     }
 }

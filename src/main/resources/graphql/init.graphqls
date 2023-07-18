@@ -2,6 +2,7 @@ type Query {
     hello: HelloQuery!
     user: UserQuery!
     pickup: PickupQuery!
+    trashType: TrashTypeQuery!
 }
 
 type Mutation {
