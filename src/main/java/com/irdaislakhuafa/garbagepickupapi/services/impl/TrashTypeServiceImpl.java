@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.TrashType;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.trashtype.TrashTypeRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.trashtype.TrashTypeUpdateRequest;
@@ -20,7 +21,12 @@ public class TrashTypeServiceImpl implements TrashTypeService {
 
     @Override
     public Optional<TrashType> save(TrashType request) {
-        return Optional.empty();
+        try {
+            final var result = this.trashTypeRepository.save(request);
+            return Optional.of(result);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
