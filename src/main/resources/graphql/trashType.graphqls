@@ -1,3 +1,12 @@
+type TrashTypeMutation {
+    save(request: TrashTypeRequest!): TrashType
+}
+
+type TrashTypeQuery {
+    findAll: [TrashType!]
+    findById(id: String!): TrashType
+}
+
 type TrashType {
     id: String!
     name: String!
@@ -9,4 +18,9 @@ type TrashType {
     deletedAt: String
     deletedBy: String
     isDeleted: Boolean!
+}
+
+input TrashTypeRequest {
+    name: String!
+    description: String!
 }
