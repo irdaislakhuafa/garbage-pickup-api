@@ -4,7 +4,8 @@ type PickupMutation {
 }
 
 type PickupQuery {
-    findAllByUserId(userId: String!): [Pickup!]
+    # @start @end is date time with format "dd/MM/YYYY HH:MM:ss"
+    findAllByUserIdWithRangeDate(userId: String!, start: String!, end: String!, status: PickupStatus): [Pickup!]
 }
 
 type Pickup {

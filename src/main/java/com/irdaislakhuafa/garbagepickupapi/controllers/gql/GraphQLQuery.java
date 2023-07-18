@@ -1,6 +1,7 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql;
 
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class GraphQLQuery {
     private final HelloQuery hello;
     private final UserQuery user;
     private final TrashTypeQuery trashType;
+    private final PickupQuery pickup;
 
     @SchemaMapping(field = "hello")
     public HelloQuery helloQuery() {
@@ -28,5 +30,10 @@ public class GraphQLQuery {
     @SchemaMapping(field = "trashType")
     public TrashTypeQuery trashType() {
         return this.trashType;
+    }
+
+    @SchemaMapping(field = "pickup")
+    public PickupQuery pickup() {
+        return this.pickup;
     }
 }

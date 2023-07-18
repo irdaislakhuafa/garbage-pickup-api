@@ -1,20 +1,24 @@
 package com.irdaislakhuafa.garbagepickupapi.configurations;
 
-import java.text.SimpleDateFormat;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.text.SimpleDateFormat;
+
 @Configuration
 public class BeansConfiguration {
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Value(value = "${app.config.date-format-layout}")
+    private String dateFormatLayout;
 
-	@Bean
-	public SimpleDateFormat simpleDateFormat() {
-		return new SimpleDateFormat("dd/MM/YYYY HH:MM:ss");
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SimpleDateFormat simpleDateFormat() {
+        return new SimpleDateFormat(dateFormatLayout);
+    }
 }

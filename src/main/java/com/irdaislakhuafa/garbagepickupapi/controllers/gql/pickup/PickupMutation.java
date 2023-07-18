@@ -30,4 +30,5 @@ public class PickupMutation {
         final var result = this.pickupService.update(pickup);
         return result;
     }
+    
 }

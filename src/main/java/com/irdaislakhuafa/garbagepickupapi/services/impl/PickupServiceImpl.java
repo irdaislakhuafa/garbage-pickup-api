@@ -5,6 +5,7 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.helpers.DistanceCalculatorHelper;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
+import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
@@ -15,11 +16,14 @@ import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,7 +36,10 @@ public class PickupServiceImpl implements PickupService {
     private final TrashTypeRepository trashTypeRepository;
     private final UserService userService;
     private final DistanceCalculatorHelper distanceCalculatorHelper;
+    //    private final SimpleDateFormat dateFormatter;
 
+    @Value(value = "${app.config.date-format-layout}")
+    private String dateFormatLayout;
 
     @Override
     public Optional<Pickup> save(Pickup request) {
@@ -124,6 +131,26 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
+    public Set<Pickup> findAllByUserIdWithRange(String userId, String start, String end, PickupStatus status) {
+        try {
+            final var formatter = DateTimeFormatter.ofPattern(dateFormatLayout);
+            final var startDate = LocalDateTime.parse(start, formatter);
+            final var endDate = LocalDateTime.parse(end, formatter);
+
+            var results = new HashSet<Pickup>();
+            if (status == null) {
+                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetween(userId, startDate, endDate);
+            } else {
+                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetweenAndStatus(userId, startDate, endDate, status);
+            }
+
+            return results;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    @Override
     public Optional<Pickup> delete(String s) {
         return Optional.empty();
     }
@@ -133,10 +160,6 @@ public class PickupServiceImpl implements PickupService {
         return Optional.empty();
     }
 
-    @Override
-    public Set<Pickup> findAllByUserId(String userId) {
-        return null;
-    }
 
     /**
      * @param request is request body to create new pickup
@@ -202,4 +225,6 @@ public class PickupServiceImpl implements PickupService {
 
         return result;
     }
+
+
 }
