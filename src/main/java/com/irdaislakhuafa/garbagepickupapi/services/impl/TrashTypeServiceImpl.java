@@ -9,6 +9,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.TrashTypeService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,8 @@ public class TrashTypeServiceImpl implements TrashTypeService {
         try {
             final var result = this.trashTypeRepository.save(request);
             return Optional.of(result);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException(String.format("trash type with name '%s' already exists", request.getName()));
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }

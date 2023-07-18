@@ -75,25 +75,21 @@ public class UserServiceTestImpl implements UserServiceTest<User> {
 
     @Override
     public void testUpdate() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'testUpdate'");
     }
 
     @Override
     public void testFromRequestToEntity() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'testFromRequestToEntity'");
     }
 
     @Override
     public void testGetCurrentUser() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'testGetCurrentUser'");
     }
 
     @Override
     public void testFromUpdateRequestToEntity() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'testFromUpdateRequestToEntity'");
     }
 

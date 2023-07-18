@@ -9,4 +9,5 @@ type Mutation {
     user: UserMutation!
     role: RoleMutation!
     pickup: PickupMutation!
+    trashType: TrashTypeMutation!
 }
