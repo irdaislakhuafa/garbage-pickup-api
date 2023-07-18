@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -105,6 +106,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAll() {
+        final var results = this.userRepository.findAll();
+        return results;
+    }
+
+    @Override
     public Optional<User> update(User request) {
         final var user = this.userRepository.findById(request.getId());
         if (user.isEmpty()) {
@@ -125,6 +132,11 @@ public class UserServiceImpl implements UserService {
 
         final var updated = this.userRepository.save(user.get());
         return Optional.of(updated);
+    }
+
+    @Override
+    public Optional<User> delete(String s) {
+        return Optional.empty();
     }
 
     @Override
@@ -157,11 +169,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(String id) {
+    public Optional<User> findById(String id) {
         final var user = this.userRepository.findById(id).orElseThrow(() -> {
             throw new DataNotFound(String.format("user with id '%s' not found", id));
         });
-        return user;
+        return Optional.ofNullable(user);
     }
 
 }

@@ -13,6 +13,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.PickupService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PickupServiceImpl implements PickupService {
     private final PickupRepository pickupRepository;
     private final UserRepository userRepository;
@@ -126,6 +128,8 @@ public class PickupServiceImpl implements PickupService {
                 .place(request.getPlace())
                 .trashType(trashType.get())
                 .description(request.getDescription())
+                .lat(request.getLat())
+                .lng(request.getLng())
                 .createdAt(LocalDateTime.now())
                 .createdBy(this.userService.getCurrentUser().getId())
                 .build();

@@ -6,6 +6,7 @@ type UserMutation {
 
 type UserQuery {
     findById(id: String!): User
+    findAll: [User!]
 }
 
 type User {
