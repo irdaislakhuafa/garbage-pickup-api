@@ -46,8 +46,13 @@ public class TrashTypeServiceImpl implements TrashTypeService {
     }
 
     @Override
-    public Optional<TrashType> findById(String s) {
-        return Optional.empty();
+    public Optional<TrashType> findById(String id) {
+        final var result = this.trashTypeRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new BadRequestException(String.format("trash type with id '%s' not found", id));
+        }
+
+        return result;
     }
 
     /**
