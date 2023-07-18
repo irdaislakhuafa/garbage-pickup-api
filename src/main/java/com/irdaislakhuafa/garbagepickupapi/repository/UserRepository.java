@@ -9,5 +9,5 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByEmail(String email);
 
-    Set<User> findAllByRoleNameEqualsIgnoreCaseAndByIsDeleted(String roleName, boolean isDeleted);
+    Set<User> findAllByRolesNameEqualsIgnoreCaseAndIsDeleted(String roleName, boolean isDeleted);
 }

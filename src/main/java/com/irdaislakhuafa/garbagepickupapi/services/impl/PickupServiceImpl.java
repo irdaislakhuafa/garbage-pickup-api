@@ -39,7 +39,7 @@ public class PickupServiceImpl implements PickupService {
              */
 
             // find all user with role "courier" and not deleted
-            final var listCourier = this.userRepository.findAllByRoleNameEqualsIgnoreCaseAndByIsDeleted("courier", false);
+            final var listCourier = this.userRepository.findAllByRolesNameEqualsIgnoreCaseAndIsDeleted("courier", false);
             if (listCourier.isEmpty()) {
                 throw new BadRequestException("no registered courier");
             }
@@ -87,7 +87,7 @@ public class PickupServiceImpl implements PickupService {
 
             // save request
             final var result = this.pickupRepository.save(request);
-            
+
             return Optional.of(result);
         } catch (DataIntegrityViolationException e) {
             throw new DataAlreadyExists("this request pickup already exists");
