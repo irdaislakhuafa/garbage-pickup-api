@@ -130,6 +130,8 @@ public class UserServiceImpl implements UserService {
         user.get().setUpdatedBy(this.getCurrentUser().getId());
         user.get().setUpdatedAt(LocalDateTime.now());
 
+        // TODO: upload file image
+
         final var updated = this.userRepository.save(user.get());
         return Optional.of(updated);
     }
