@@ -1,11 +1,14 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
+import com.irdaislakhuafa.garbagepickupapi.models.entities.LastLocation;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.repository.LastLocationRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
@@ -20,33 +23,36 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService<User> {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final LastLocationRepository lastLocationRepository;
 
     @Override
     public Optional<User> save(User user) {
         try {
             log.info("saving new user");
 
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            var result = this.userRepository.save(user);
+            final var lastLocation = this.lastLocationRepository.save(LastLocation.builder().build());
 
-            log.info("success save new user");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setLastLocation(lastLocation);
+
+            final var result = this.userRepository.save(user);
+
             return Optional.ofNullable(result);
         } catch (DataIntegrityViolationException e) {
-            log.error("user already exists, " + e.getMessage());
             throw new DataAlreadyExists("user already exists");
         } catch (Exception e) {
-            log.error("error while save new user, " + e.getMessage(), e);
+            throw new BadRequestException(e.getMessage());
         }
-        return Optional.empty();
     }
 
     @Override
@@ -100,6 +106,12 @@ public class UserServiceImpl implements UserService<User> {
     }
 
     @Override
+    public List<User> findAll() {
+        final var results = this.userRepository.findAll();
+        return results;
+    }
+
+    @Override
     public Optional<User> update(User request) {
         final var user = this.userRepository.findById(request.getId());
         if (user.isEmpty()) {
@@ -118,8 +130,15 @@ public class UserServiceImpl implements UserService<User> {
         user.get().setUpdatedBy(this.getCurrentUser().getId());
         user.get().setUpdatedAt(LocalDateTime.now());
 
+        // TODO: upload file image
+
         final var updated = this.userRepository.save(user.get());
         return Optional.of(updated);
+    }
+
+    @Override
+    public Optional<User> delete(String s) {
+        return Optional.empty();
     }
 
     @Override
@@ -149,6 +168,14 @@ public class UserServiceImpl implements UserService<User> {
                 .build();
 
         return result;
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        final var user = this.userRepository.findById(id).orElseThrow(() -> {
+            throw new DataNotFound(String.format("user with id '%s' not found", id));
+        });
+        return Optional.ofNullable(user);
     }
 
 }

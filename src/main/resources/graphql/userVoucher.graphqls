@@ -1,0 +1,17 @@
+type UserVoucher {
+    id: String!
+    user: User!
+    voucher: Voucher!
+    status: UserVoucherStatus!
+    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdBy: String!
+    updatedAt: String
+    updatedBy: String
+    deletedAt: String
+    deletedBy: String
+    isDeleted: Boolean!
+}
+
+enum UserVoucherStatus {
+    USED, AVAILABLE
+}

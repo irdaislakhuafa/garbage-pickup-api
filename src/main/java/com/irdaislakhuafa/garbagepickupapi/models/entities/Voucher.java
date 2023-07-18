@@ -12,16 +12,17 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class Voucher extends BaseEntity {
-	@Column(nullable = false)
-	private String title;
+    @Column(nullable = false)
+    private String title;
 
-	@Column(nullable = false)
-	private String description;
+    @Column(nullable = false)
+    private String description;
 
-	@Column(nullable = false)
-	private String image;
+    //	TODO: upload file image
+    @Column(nullable = false)
+    private String image;
 
-	@Column(nullable = false)
-	@Builder.Default
-	private int pointsNeeded = 0;
+    @Column(nullable = false)
+    @Builder.Default
+    private int pointsNeeded = 0;
 }

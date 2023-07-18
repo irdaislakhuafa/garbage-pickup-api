@@ -4,6 +4,11 @@ type UserMutation {
     login(request: UserLoginRequest!): JwtTokenResponse
 }
 
+type UserQuery {
+    findById(id: String!): User
+    findAll: [User!]
+}
+
 type User {
     id: String!
     name: String!
@@ -15,6 +20,7 @@ type User {
     saldo: Int!
     point: Int!
     roles: [Role!]!
+    lastLocation: LastLocation!
     createdAt: String! # DD/MM/YYYY HH:MM:ss
     createdBy: String!
     updatedAt: String
@@ -50,6 +56,8 @@ type JwtTokenResponse {
 input UserLoginRequest {
     email: String!
     password: String!
+    lat: Float!
+    lng: Float!
 }
 
 input UserUpdateRequest {

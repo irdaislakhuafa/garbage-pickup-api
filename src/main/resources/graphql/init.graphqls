@@ -1,8 +1,13 @@
 type Query {
-  hello: HelloQuery!
+    hello: HelloQuery!
+    user: UserQuery!
+    pickup: PickupQuery!
+    trashType: TrashTypeQuery!
 }
 
 type Mutation {
-  user: UserMutation!
-  role: RoleMutation!
+    user: UserMutation!
+    role: RoleMutation!
+    pickup: PickupMutation!
+    trashType: TrashTypeMutation!
 }

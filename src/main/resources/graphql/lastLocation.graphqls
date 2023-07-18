@@ -1,0 +1,5 @@
+type LastLocation {
+    id: String!
+    lat: Float!
+    lng: Float!
+}

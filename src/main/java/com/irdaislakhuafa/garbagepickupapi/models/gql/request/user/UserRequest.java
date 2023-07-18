@@ -1,6 +1,5 @@
-package com.irdaislakhuafa.garbagepickupapi.models.gql.request;
+package com.irdaislakhuafa.garbagepickupapi.models.gql.request.user;
 
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.utils.UserRoles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +12,10 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserUpdateRequest {
-    private String id;
+public class UserRequest {
     private String name;
     private String email;
+    private String password;
     private String image;
     private String phone;
     private String address;
@@ -26,5 +25,4 @@ public class UserUpdateRequest {
     private int point = 0;
     @Builder.Default
     private ArrayList<UserRoles> roles = new ArrayList<>();
-    private boolean isDeleted;
 }

@@ -1,11 +1,12 @@
 package com.irdaislakhuafa.garbagepickupapi.services;
 
+import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.role.RoleRequest;
+import com.irdaislakhuafa.garbagepickupapi.services.converter.EntityConverterService;
+
 import java.util.Optional;
 
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.RoleRequest;
+public interface RoleService extends EntityConverterService<Role, RoleRequest, Object> {
+    Optional<Role> save(Role request);
 
-public interface RoleService<R> {
-	Optional<R> save(R request);
-
-	R fromRequestToEntity(RoleRequest request);
 }

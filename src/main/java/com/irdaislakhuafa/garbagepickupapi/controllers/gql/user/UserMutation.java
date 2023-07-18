@@ -2,9 +2,9 @@ package com.irdaislakhuafa.garbagepickupapi.controllers.gql.user;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.JwtTokenResponse;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserLoginRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserRequest;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.request.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserLoginRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @SchemaMapping(typeName = "UserMutation")
 @RequiredArgsConstructor
 public class UserMutation {
-    private final UserService<User> userService;
+    private final UserService userService;
     private final AuthService loginAndRegisterService;
 
     @SchemaMapping
