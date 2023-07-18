@@ -54,12 +54,11 @@ public class PickupServiceImpl implements PickupService {
 
             final var listCourierDistance = new ArrayList<CourierDistance>();
             listCourier.forEach(courier -> {
-                final var userLastLocation = request.getUser().getLastLocation();
                 final var courierLastLocation = courier.getLastLocation();
                 final var distance = distanceCalculatorHelper.calculateDistance(
                         DistanceCalculatorHelper.Distance.builder()
-                                .lat(userLastLocation.getLat())
-                                .lng(userLastLocation.getLng())
+                                .lat(request.getLat())
+                                .lng(request.getLng())
                                 .build(),
                         DistanceCalculatorHelper.Distance.builder()
                                 .lat(courierLastLocation.getLat())

@@ -37,4 +37,6 @@ input PickupRequest {
     place: String!
     trashTypeId: String!
     description: String!
+    lat: Float!
+    lng: Float!
 }

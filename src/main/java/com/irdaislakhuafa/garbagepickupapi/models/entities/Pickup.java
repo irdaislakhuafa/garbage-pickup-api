@@ -42,4 +42,10 @@ public class Pickup extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private double lat;
+    
+    @Column(nullable = false)
+    private double lng;
 }
