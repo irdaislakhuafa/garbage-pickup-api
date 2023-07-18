@@ -36,7 +36,3 @@ jwt:
   token:
     expired-in:
       minute: 10080 # one week
-
-app:
-  resi:
-    prefix: AJS

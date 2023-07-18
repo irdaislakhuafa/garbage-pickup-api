@@ -13,7 +13,6 @@ import com.irdaislakhuafa.garbagepickupapi.services.PickupService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,6 @@ public class PickupServiceImpl implements PickupService {
     private final UserService userService;
     private final DistanceCalculatorHelper distanceCalculatorHelper;
 
-    @Value(value = "${app.resi.prefix}")
-    private String appResiPrefix;
 
     @Override
     public Optional<Pickup> save(Pickup request) {
@@ -85,8 +82,12 @@ public class PickupServiceImpl implements PickupService {
             final var selected = listCourierDistance.get(0);
             request.setCourier(selected.getCourier());
 
+            // generate no resi based on current millis
+            request.setResi(String.valueOf(System.currentTimeMillis()));
+
             // save request
             final var result = this.pickupRepository.save(request);
+            
             return Optional.of(result);
         } catch (DataIntegrityViolationException e) {
             throw new DataAlreadyExists("this request pickup already exists");
@@ -102,7 +103,7 @@ public class PickupServiceImpl implements PickupService {
 
     /**
      * @param request is request body to create new pickup
-     * @return result this method doesn't specify the courier
+     * @return result this method doesn't specify the courier and no resi
      */
     @Override
     public Pickup fromRequestToEntity(PickupRequest request) {
@@ -120,7 +121,6 @@ public class PickupServiceImpl implements PickupService {
 
         // build result
         final var result = Pickup.builder()
-                .resi(this.appResiPrefix)
                 .user(user.get())
                 .status(request.getStatus())
                 .weight(request.getWeight())
