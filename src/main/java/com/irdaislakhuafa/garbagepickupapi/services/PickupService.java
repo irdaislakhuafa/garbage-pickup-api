@@ -2,13 +2,19 @@ package com.irdaislakhuafa.garbagepickupapi.services;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.services.converter.CRUDService;
 import com.irdaislakhuafa.garbagepickupapi.services.converter.EntityConverterService;
 
 import java.util.Optional;
 import java.util.Set;
 
-public interface PickupService extends EntityConverterService<Pickup, PickupRequest, Object> {
-    Optional<Pickup> save(Pickup request);
+public interface PickupService extends EntityConverterService<Pickup, PickupRequest, PickupUpdateRequest>, CRUDService<Pickup, String> {
+
+    /**
+     * this method doesn't update fields [resi]
+     */
+    Optional<Pickup> update(Pickup request);
 
     /**
      * this method is used to retrieve all the list of pickup requests that have been made by the user

@@ -6,6 +6,7 @@ import com.irdaislakhuafa.garbagepickupapi.helpers.DistanceCalculatorHelper;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
@@ -98,6 +99,41 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
+    public Optional<Pickup> update(Pickup request) {
+        try {
+            final var pickup = this.pickupRepository.findById(request.getId());
+            if (pickup.isEmpty()) {
+                throw new BadRequestException(String.format("pickup with id '%s' doesn't exist", request.getId()));
+            }
+
+            pickup.get().setUser(request.getUser());
+            pickup.get().setStatus(request.getStatus());
+            pickup.get().setPlace(request.getPlace());
+            pickup.get().setTrashType(request.getTrashType());
+            pickup.get().setWeight(request.getWeight());
+            pickup.get().setDescription(request.getDescription());
+            pickup.get().setLat(request.getLat());
+            pickup.get().setLng(request.getLng());
+            pickup.get().setDeleted(request.isDeleted());
+
+            final var result = this.pickupRepository.save(pickup.get());
+            return Optional.of(result);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<Pickup> delete(String s) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Pickup> findById(String s) {
+        return Optional.empty();
+    }
+
+    @Override
     public Set<Pickup> findAllByUserId(String userId) {
         return null;
     }
@@ -138,7 +174,32 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
-    public Pickup fromUpdateRequestToEntity(Object request) {
-        return null;
+    public Pickup fromUpdateRequestToEntity(PickupUpdateRequest request) {
+        final var user = this.userRepository.findById(request.getUserId());
+        if (user.isEmpty()) {
+            throw new BadRequestException(String.format("user with id '%s' does not exist", request.getUserId()));
+        }
+
+        final var trashType = this.trashTypeRepository.findById(request.getId());
+        if (trashType.isEmpty()) {
+            throw new BadRequestException(String.format("trash type with id '%s' does not exist", request.getTrashTypeId()));
+        }
+
+        final var result = Pickup.builder()
+                .id(request.getId())
+                .user(user.get())
+                .status(request.getStatus())
+                .place(request.getPlace())
+                .trashType(trashType.get())
+                .weight(request.getWeight())
+                .description(request.getDescription())
+                .lat(request.getLat())
+                .lng(request.getLng())
+                .updatedAt(LocalDateTime.now())
+                .updatedBy(this.userService.getCurrentUser().getId())
+                .isDeleted(request.isDeleted())
+                .build();
+
+        return result;
     }
 }

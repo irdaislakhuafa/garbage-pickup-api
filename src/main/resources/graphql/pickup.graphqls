@@ -1,5 +1,6 @@
 type PickupMutation {
     save(request: PickupRequest!): Pickup
+    update(request: PickupUpdateRequest!): Pickup
 }
 
 type PickupQuery {
@@ -39,4 +40,17 @@ input PickupRequest {
     description: String!
     lat: Float!
     lng: Float!
+}
+
+input PickupUpdateRequest {
+    id: String!
+    userId: String!
+    status: PickupStatus!
+    weight: Int!
+    place: String!
+    trashTypeId: String!
+    description: String!
+    lat: Float!
+    lng: Float!
+    isDeleted: Boolean!
 }
