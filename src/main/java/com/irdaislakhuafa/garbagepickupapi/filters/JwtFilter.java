@@ -37,8 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("flitering request with JwtFilter");
-
         final var AUTH_HEADER_KEY = "Authorization";
         final var AUTH_PREFIX = "Bearer ";
 
