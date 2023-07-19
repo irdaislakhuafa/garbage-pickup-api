@@ -56,11 +56,32 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher fromRequestToEntity(VoucherRequest request) {
-        return null;
+        try {
+            final var result = Voucher.builder()
+                    .title(request.getTitle())
+                    .description(request.getDescription())
+                    .image(request.getImage())
+                    .pointsNeeded(request.getPointsNeeded())
+                    .build();
+            return result;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
     public Voucher fromUpdateRequestToEntity(VoucherUpdateRequest request) {
-        return null;
+        try {
+            final var result = Voucher.builder()
+                    .id(request.getId())
+                    .title(request.getTitle())
+                    .description(request.getDescription())
+                    .image(request.getImage())
+                    .pointsNeeded(request.getPointsNeeded())
+                    .build();
+            return result;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 }
