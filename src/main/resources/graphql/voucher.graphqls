@@ -1,3 +1,12 @@
+type VoucherMutation {
+    save(request: VoucherRequest!): Voucher
+}
+
+type VoucherQuery {
+    findAll: [Voucher!]
+    findById: [Voucher!]
+}
+
 type Voucher {
     id: String!
     title: String!
@@ -11,4 +20,11 @@ type Voucher {
     deletedAt: String
     deletedBy: String
     isDeleted: Boolean!
+}
+
+input VoucherRequest {
+    title: String!
+    description: String!
+    image: String!
+    pointsNeeded: Int!
 }
