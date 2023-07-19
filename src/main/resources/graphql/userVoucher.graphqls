@@ -1,3 +1,7 @@
+type UserVoucherQuery {
+    findAllByUserIdAndStatus(userId: String!, status: UserVoucherStatus!): [UserVoucher!]
+}
+
 type UserVoucher {
     id: String!
     user: User!
