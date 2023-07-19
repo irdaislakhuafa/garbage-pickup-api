@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -158,6 +155,11 @@ public class PickupServiceImpl implements PickupService {
     @Override
     public Optional<Pickup> findById(String s) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Pickup> findAll() {
+        return null;
     }
 
 
