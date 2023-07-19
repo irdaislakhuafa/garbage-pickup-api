@@ -7,5 +7,5 @@ import com.irdaislakhuafa.garbagepickupapi.services.converter.CRUDService;
 import java.util.List;
 
 public interface UserVoucherService extends CRUDService<UserVoucher, String> {
-    List<UserVoucher> findAll(String userId, UserVoucherStatus status);
+    List<UserVoucher> findAll(String userId, List<UserVoucherStatus> status);
 }

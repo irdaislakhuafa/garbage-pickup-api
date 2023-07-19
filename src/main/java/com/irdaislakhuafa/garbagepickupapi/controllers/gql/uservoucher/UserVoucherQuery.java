@@ -19,7 +19,7 @@ public class UserVoucherQuery {
     @SchemaMapping(field = "findAllByUserIdAndStatus")
     public List<UserVoucher> findAll(
             @Argument(name = "userId") String userId,
-            @Argument(name = "status") UserVoucherStatus status) {
+            @Argument(name = "status") List<UserVoucherStatus> status) {
         final var results = this.userVoucherService.findAll(userId, status);
         return results;
     }

@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface UserVoucherRepository extends JpaRepository<UserVoucher, String> {
-    List<UserVoucher> findAllByUserIdAndStatus(String id, UserVoucherStatus status);
+    List<UserVoucher> findAllByUserIdAndStatusIn(String userId, List<UserVoucherStatus> status);
+
+    List<UserVoucher> findAllByUserId(String userId);
 }
