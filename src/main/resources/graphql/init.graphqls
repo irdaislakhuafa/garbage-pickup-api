@@ -13,4 +13,5 @@ type Mutation {
     pickup: PickupMutation!
     trashType: TrashTypeMutation!
     voucher: VoucherMutation!
+    userVoucher: UserVoucherMutation!
 }

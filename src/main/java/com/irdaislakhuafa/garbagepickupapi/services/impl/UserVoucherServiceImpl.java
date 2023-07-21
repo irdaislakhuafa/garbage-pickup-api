@@ -95,11 +95,36 @@ public class UserVoucherServiceImpl implements UserVoucherService {
         try {
             final var listUserVoucher = this.userVoucherRepository.findAllByIdIsIn(listId);
 
+            // throw bad request if list user voucher is not saved in db
+            if (listUserVoucher.isEmpty()) {
+                throw new BadRequestException("user voucher in from list is not found");
+            }
+
+            // check is user voucher with id from parameter is exists?
+            final var listUnsavedId = new ArrayList<String>();
+            final var listSavedId = listUserVoucher.stream().map(uv -> uv.getId()).toList();
+            for (var id : listId) {
+                if (!listSavedId.contains(id)) {
+                    listUnsavedId.add(id);
+                }
+            }
+
+
+            // and throw exception if list unsaved user voucher is not empty
+            if (!listUnsavedId.isEmpty()) {
+                throw new BadRequestException("user voucher with id " + listUnsavedId + " doesn't exists");
+            }
+
+            // change status of user voucher as claimed
             listUserVoucher.forEach(userVoucher -> {
                 userVoucher.setStatus(UserVoucherStatus.CLAIMED);
+                userVoucher.setUpdatedAt(LocalDateTime.now());
+                userVoucher.setUpdatedBy(userService.getCurrentUser().getId());
             });
 
+            // and update it
             final var listExchanged = this.userVoucherRepository.saveAll(listUserVoucher);
+
             return listExchanged;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
