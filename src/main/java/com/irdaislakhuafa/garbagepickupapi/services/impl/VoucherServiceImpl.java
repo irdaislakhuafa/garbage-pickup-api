@@ -62,6 +62,8 @@ public class VoucherServiceImpl implements VoucherService {
                     .description(request.getDescription())
                     .image(request.getImage())
                     .pointsNeeded(request.getPointsNeeded())
+                    .type(request.getType())
+                    .value(request.getValue())
                     .build();
             return result;
         } catch (Exception e) {
@@ -78,6 +80,8 @@ public class VoucherServiceImpl implements VoucherService {
                     .description(request.getDescription())
                     .image(request.getImage())
                     .pointsNeeded(request.getPointsNeeded())
+                    .type(request.getType())
+                    .value(request.getValue())
                     .build();
             return result;
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.models.gql.request.voucher;
 
+import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.VoucherType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,6 @@ public class VoucherUpdateRequest {
     private String description;
     private String image;
     private int pointsNeeded;
+    private VoucherType type;
+    private int value;
 }
