@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserVoucherService extends CRUDService<UserVoucher, String> {
     List<UserVoucher> findAll(String userId, List<UserVoucherStatus> status);
+
+    List<UserVoucher> exchange(List<String> listId);
 }

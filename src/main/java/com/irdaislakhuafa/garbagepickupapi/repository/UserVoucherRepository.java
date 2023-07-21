@@ -10,4 +10,6 @@ public interface UserVoucherRepository extends JpaRepository<UserVoucher, String
     List<UserVoucher> findAllByUserIdAndStatusIn(String userId, List<UserVoucherStatus> status);
 
     List<UserVoucher> findAllByUserId(String userId);
+
+    List<UserVoucher> findAllByIdIsIn(List<String> id);
 }

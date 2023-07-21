@@ -2,6 +2,9 @@ type UserVoucherQuery {
     findAllByUserIdAndStatus(userId: String!, status: [UserVoucherStatus!]!): [UserVoucher!]
 }
 
+type UserVoucherMutation {
+    exchange(listId: [String!]!): [UserVoucher]
+}
 
 type UserVoucher {
     id: String!

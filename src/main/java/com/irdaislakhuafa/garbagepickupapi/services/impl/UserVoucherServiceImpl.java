@@ -86,6 +86,26 @@ public class UserVoucherServiceImpl implements UserVoucherService {
         }
     }
 
+    /**
+     * @param listId is list id voucher that will be excanged
+     * @return {@code  List<UserVoucher>} the list of vouchers that were exchanged
+     */
+    @Override
+    public List<UserVoucher> exchange(List<String> listId) {
+        try {
+            final var listUserVoucher = this.userVoucherRepository.findAllByIdIsIn(listId);
+
+            listUserVoucher.forEach(userVoucher -> {
+                userVoucher.setStatus(UserVoucherStatus.CLAIMED);
+            });
+
+            final var listExchanged = this.userVoucherRepository.saveAll(listUserVoucher);
+            return listExchanged;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
     @Override
     public Optional<UserVoucher> save(UserVoucher request) {
         return Optional.empty();
