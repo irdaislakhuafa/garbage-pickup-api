@@ -18,8 +18,8 @@ public class UserVoucherMutation {
     private final UserVoucherService userVoucherService;
 
     @SchemaMapping
-    public List<UserVoucher> exchange(@Argument(name = "listId") List<String> listId) {
-        final var result = this.userVoucherService.exchange(listId);
+    public List<UserVoucher> exchange(@Argument(name = "userId") String userId, @Argument(name = "listId") List<String> listId) {
+        final var result = this.userVoucherService.exchange(userId, listId);
         return result;
     }
 }

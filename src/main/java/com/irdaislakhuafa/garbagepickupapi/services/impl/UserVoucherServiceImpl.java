@@ -9,6 +9,7 @@ import com.irdaislakhuafa.garbagepickupapi.repository.UserVoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.VoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserVoucherService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -91,29 +92,55 @@ public class UserVoucherServiceImpl implements UserVoucherService {
      * @return {@code  List<UserVoucher>} the list of vouchers that were exchanged
      */
     @Override
-    public List<UserVoucher> exchange(List<String> listId) {
+    @Transactional
+    public List<UserVoucher> exchange(String userId, List<String> listId) {
         try {
             final var listUserVoucher = this.userVoucherRepository.findAllByIdIsIn(listId);
 
             // throw bad request if list user voucher is not saved in db
             if (listUserVoucher.isEmpty()) {
-                throw new BadRequestException("user voucher in from list is not found");
+                throw new BadRequestException("user voucher with id from list is not found");
+            }
+
+            // throw if list user voucher contains claimed user voucher
+            final var listAlreadyClaimed = listUserVoucher.stream()
+                    .filter(uv -> uv.getStatus().equals(UserVoucherStatus.CLAIMED))
+                    .map(UserVoucher::getId)
+                    .toList();
+
+            if (!listAlreadyClaimed.isEmpty()) {
+                throw new BadRequestException(String.format("user voucher with id %s already claimd", listAlreadyClaimed));
             }
 
             // check is user voucher with id from parameter is exists?
             final var listUnsavedId = new ArrayList<String>();
-            final var listSavedId = listUserVoucher.stream().map(uv -> uv.getId()).toList();
+            final var listSavedId = listUserVoucher.stream().map(UserVoucher::getId).toList();
             for (var id : listId) {
                 if (!listSavedId.contains(id)) {
                     listUnsavedId.add(id);
                 }
             }
 
-
             // and throw exception if list unsaved user voucher is not empty
             if (!listUnsavedId.isEmpty()) {
                 throw new BadRequestException("user voucher with id " + listUnsavedId + " doesn't exists");
             }
+
+            // check point of user
+            final var user = this.userRepository.findById(userId);
+            if (user.isEmpty()) {
+                throw new BadRequestException(String.format("user with id '%s' not found, please register first", userId));
+            }
+
+            listUserVoucher.forEach(userVoucher -> {
+                final var voucher = userVoucher.getVoucher();
+                if (user.get().getPoint() >= voucher.getPointsNeeded()) {
+                    user.get().setPoint(user.get().getPoint() - voucher.getPointsNeeded());
+                } else {
+                    throw new BadRequestException(String.format("user point is %d but the voucher with id '%s' need %d point", user.get().getPoint(), voucher.getId(), voucher.getPointsNeeded()));
+                }
+            });
+            this.userRepository.save(user.get());
 
             // change status of user voucher as claimed
             listUserVoucher.forEach(userVoucher -> {

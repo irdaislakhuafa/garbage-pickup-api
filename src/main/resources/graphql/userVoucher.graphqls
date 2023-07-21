@@ -3,7 +3,7 @@ type UserVoucherQuery {
 }
 
 type UserVoucherMutation {
-    exchange(listId: [String!]!): [UserVoucher]
+    exchange(userId: String!, listId: [String!]!): [UserVoucher]
 }
 
 type UserVoucher {
