@@ -79,6 +79,7 @@ public class PickupActivityServiceImpl implements PickupActivityService {
     public List<PickupActivity> findAllByPickupId(String pickupId) {
         try {
             final var results = this.pickupActivityRepository.findAllByPickupId(pickupId);
+            results.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
             return results;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
@@ -89,6 +90,7 @@ public class PickupActivityServiceImpl implements PickupActivityService {
     public List<PickupActivity> findAllByPickupResi(String pickupResi) {
         try {
             final var results = this.pickupActivityRepository.findAllByPickupResi(pickupResi);
+            results.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
             return results;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());

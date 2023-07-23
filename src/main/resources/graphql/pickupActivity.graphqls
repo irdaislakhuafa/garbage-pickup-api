@@ -3,7 +3,10 @@ type PickupActivityMutation {
 }
 
 type PickupActivityQuery {
+    # @return default is sorted DESC by createdAt
     findAllByPickupId(pickupId: String): [PickupActivity!]
+
+    # @return default is sorted DESC by createdAt
     findAllByPickupResi(pickupResi: String!): [PickupActivity!]
 }
 

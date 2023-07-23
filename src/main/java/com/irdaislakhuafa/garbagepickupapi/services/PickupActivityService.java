@@ -12,4 +12,8 @@ public interface PickupActivityService extends CRUDService<PickupActivity, Strin
     List<PickupActivity> findAllByPickupId(final String pickupId);
 
     List<PickupActivity> findAllByPickupResi(String pickupResi);
+
+//    List<PickupActivity> findAllByPickupId(final String pickupId, sortBy);
+
+//    List<PickupActivity> findAllByPickupResi(String pickupResi, sortBy);
 }
