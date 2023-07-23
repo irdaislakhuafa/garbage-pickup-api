@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.services.converter;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CRUDService<E, ID> {
@@ -10,4 +11,6 @@ public interface CRUDService<E, ID> {
     Optional<E> delete(ID id);
 
     Optional<E> findById(ID id);
+
+    List<E> findAll();
 }

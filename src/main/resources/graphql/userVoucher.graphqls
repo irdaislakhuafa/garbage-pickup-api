@@ -1,3 +1,11 @@
+type UserVoucherQuery {
+    findAllByUserIdAndStatus(userId: String!, status: [UserVoucherStatus!]!): [UserVoucher!]
+}
+
+type UserVoucherMutation {
+    exchange(userId: String!, listId: [String!]!): [UserVoucher]
+}
+
 type UserVoucher {
     id: String!
     user: User!
@@ -13,5 +21,5 @@ type UserVoucher {
 }
 
 enum UserVoucherStatus {
-    USED, AVAILABLE
+    USED, AVAILABLE, CLAIMED
 }

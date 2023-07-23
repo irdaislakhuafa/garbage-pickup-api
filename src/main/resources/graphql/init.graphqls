@@ -3,6 +3,8 @@ type Query {
     user: UserQuery!
     pickup: PickupQuery!
     trashType: TrashTypeQuery!
+    voucher: VoucherQuery!
+    userVoucher: UserVoucherQuery!
 }
 
 type Mutation {
@@ -10,4 +12,6 @@ type Mutation {
     role: RoleMutation!
     pickup: PickupMutation!
     trashType: TrashTypeMutation!
+    voucher: VoucherMutation!
+    userVoucher: UserVoucherMutation!
 }

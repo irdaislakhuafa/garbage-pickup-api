@@ -4,6 +4,8 @@ import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.uservoucher.UserVoucherQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.voucher.VoucherQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ public class GraphQLQuery {
     private final UserQuery user;
     private final TrashTypeQuery trashType;
     private final PickupQuery pickup;
+    private final VoucherQuery voucher;
+    private final UserVoucherQuery userVoucher;
 
     @SchemaMapping(field = "hello")
     public HelloQuery helloQuery() {
@@ -35,5 +39,15 @@ public class GraphQLQuery {
     @SchemaMapping(field = "pickup")
     public PickupQuery pickup() {
         return this.pickup;
+    }
+
+    @SchemaMapping(field = "voucher")
+    public VoucherQuery voucher() {
+        return this.voucher;
+    }
+
+    @SchemaMapping(field = "userVoucher")
+    public UserVoucherQuery userVoucher() {
+        return this.userVoucher;
     }
 }

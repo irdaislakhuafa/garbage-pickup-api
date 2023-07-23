@@ -1,9 +1,20 @@
+type VoucherMutation {
+    save(request: VoucherRequest!): Voucher
+}
+
+type VoucherQuery {
+    findAll: [Voucher!]
+    findById: [Voucher!]
+}
+
 type Voucher {
     id: String!
     title: String!
     description: String!
     image: String!
     pointsNeeded: Int!
+    type: VoucherType!
+    value: Int!
     createdAt: String! # DD/MM/YYYY HH:MM:ss
     createdBy: String!
     updatedAt: String
@@ -11,4 +22,17 @@ type Voucher {
     deletedAt: String
     deletedBy: String
     isDeleted: Boolean!
+}
+
+input VoucherRequest {
+    title: String!
+    description: String!
+    image: String!
+    pointsNeeded: Int!
+    type: VoucherType!
+    value: Int!
+}
+
+enum VoucherType {
+    PERCENT, PRICE
 }

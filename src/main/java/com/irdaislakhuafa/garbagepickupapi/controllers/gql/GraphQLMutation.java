@@ -4,6 +4,8 @@ import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupMutation
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.role.RoleMutation;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeMutation;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserMutation;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.uservoucher.UserVoucherMutation;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.voucher.VoucherMutation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ public class GraphQLMutation {
     private final RoleMutation role;
     private final PickupMutation pickup;
     private final TrashTypeMutation trashType;
+    private final VoucherMutation voucher;
+    private final UserVoucherMutation userVoucher;
 
     @SchemaMapping(field = "user")
     public UserMutation user() {
@@ -35,5 +39,15 @@ public class GraphQLMutation {
     @SchemaMapping(field = "trashType")
     public TrashTypeMutation trashType() {
         return this.trashType;
+    }
+
+    @SchemaMapping(field = "voucher")
+    public VoucherMutation voucher() {
+        return this.voucher;
+    }
+
+    @SchemaMapping(field = "userVoucher")
+    public UserVoucherMutation userVoucher() {
+        return this.userVoucher;
     }
 }

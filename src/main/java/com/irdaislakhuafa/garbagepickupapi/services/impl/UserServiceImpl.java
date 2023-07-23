@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final var user = this.userRepository.findByEmail(username);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("user now found");
         }
         return user.get();
