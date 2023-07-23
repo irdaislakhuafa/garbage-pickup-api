@@ -1,3 +1,15 @@
+type PickupActivityMutation {
+    save(request: PickupActivityRequest!): PickupActivity
+}
+
+type PickupActivityQuery {
+    # @return default is sorted DESC by createdAt
+    findAllByPickupId(pickupId: String): [PickupActivity!]
+
+    # @return default is sorted DESC by createdAt
+    findAllByPickupResi(pickupResi: String!): [PickupActivity!]
+}
+
 type PickupActivity {
     id: String!
     pickup: Pickup!
@@ -9,4 +21,9 @@ type PickupActivity {
     deletedAt: String
     deletedBy: String
     isDeleted: Boolean!
+}
+
+input PickupActivityRequest {
+    pickupId: String!
+    description: String!
 }

@@ -5,6 +5,7 @@ type Query {
     trashType: TrashTypeQuery!
     voucher: VoucherQuery!
     userVoucher: UserVoucherQuery!
+    pickupActivity: PickupActivityQuery!
 }
 
 type Mutation {
@@ -14,4 +15,5 @@ type Mutation {
     trashType: TrashTypeMutation!
     voucher: VoucherMutation!
     userVoucher: UserVoucherMutation!
+    pickupActivity: PickupActivityMutation!
 }
