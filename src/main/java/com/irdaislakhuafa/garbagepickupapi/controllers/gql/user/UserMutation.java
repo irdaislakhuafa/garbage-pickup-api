@@ -1,10 +1,10 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql.user;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
-import com.irdaislakhuafa.garbagepickupapi.models.gql.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserLoginRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.response.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
 type PickupMutation {
     save(request: PickupRequest!): Pickup
     update(request: PickupUpdateRequest!): Pickup
+    checkPrice(request: PickupCheckPriceRequest!): PickupCheckPriceRespone
 }
 
 type PickupQuery {
@@ -39,6 +40,7 @@ input PickupRequest {
     place: String!
     trashTypeId: String!
     description: String!
+    userVoucherId: String
     lat: Float!
     lng: Float!
 }
@@ -54,4 +56,14 @@ input PickupUpdateRequest {
     lat: Float!
     lng: Float!
     isDeleted: Boolean!
+}
+
+input PickupCheckPriceRequest {
+    weight: Int!
+    lat: Int!
+    lng: Int!
+}
+
+type PickupCheckPriceRespone {
+    price: Int!
 }

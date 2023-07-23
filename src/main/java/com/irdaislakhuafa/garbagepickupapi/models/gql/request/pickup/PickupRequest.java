@@ -17,6 +17,7 @@ public class PickupRequest {
     private String trashTypeId;
     private int weight;
     private String description;
+    private String userVoucherId;
     private double lat;
     private double lng;
 }

@@ -8,6 +8,7 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
@@ -142,6 +143,20 @@ public class PickupServiceImpl implements PickupService {
             }
 
             return results;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    @Override
+    public PickupCheckPriceResponse checkPrice(int weight, int lat, int lng) {
+        try {
+            // TODO: add logic to determine price of pickup
+            final var price = 1000;
+            final var result = PickupCheckPriceResponse.builder()
+                    .price(price)
+                    .build();
+            return result;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }

@@ -4,6 +4,7 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
 import com.irdaislakhuafa.garbagepickupapi.services.converter.CRUDService;
 import com.irdaislakhuafa.garbagepickupapi.services.converter.EntityConverterService;
 
@@ -25,4 +26,6 @@ public interface PickupService extends EntityConverterService<Pickup, PickupRequ
      * @param end    is string date time value with format "dd/MM/YYYY HH:MM:ss"
      */
     Set<Pickup> findAllByUserIdWithRange(String userId, String start, String end, PickupStatus status);
+
+    PickupCheckPriceResponse checkPrice(int weight, int lat, int lng);
 }
