@@ -43,9 +43,16 @@ public class Pickup extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+    @OneToOne
+    @JoinColumn
+    private UserVoucher userVoucher;
+
+    @Column(nullable = false)
+    private int price = 0;
+
     @Column(nullable = false)
     private double lat;
-    
+
     @Column(nullable = false)
     private double lng;
 }

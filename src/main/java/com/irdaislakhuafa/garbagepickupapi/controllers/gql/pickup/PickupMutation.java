@@ -1,6 +1,7 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupCheckPriceRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
@@ -33,8 +34,8 @@ public class PickupMutation {
     }
 
     @SchemaMapping
-    public PickupCheckPriceResponse checkPrice() {
-        final var result = this.pickupService.checkPrice(0, 0, 0);
+    public PickupCheckPriceResponse checkPrice(@Argument(name = "request") PickupCheckPriceRequest request) {
+        final var result = this.pickupService.checkPrice(request);
         return result;
     }
 }

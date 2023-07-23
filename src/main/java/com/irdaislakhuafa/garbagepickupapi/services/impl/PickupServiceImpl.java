@@ -6,14 +6,18 @@ import com.irdaislakhuafa.garbagepickupapi.helpers.DistanceCalculatorHelper;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
+import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.UserVoucherStatus;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupCheckPriceRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
 import com.irdaislakhuafa.garbagepickupapi.repository.PickupRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
+import com.irdaislakhuafa.garbagepickupapi.repository.UserVoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.PickupService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,18 +37,21 @@ public class PickupServiceImpl implements PickupService {
     private final UserRepository userRepository;
     private final TrashTypeRepository trashTypeRepository;
     private final UserService userService;
+    private final UserVoucherRepository userVoucherRepository;
     private final DistanceCalculatorHelper distanceCalculatorHelper;
     //    private final SimpleDateFormat dateFormatter;
 
     @Value(value = "${app.config.date-format-layout}")
     private String dateFormatLayout;
 
+    @Value(value = "${app.config.default-pickup-price}")
+    private int defaultPickupPrice;
+
     @Override
+    @Transactional
     public Optional<Pickup> save(Pickup request) {
         try {
-            /*
-             * added logic to select courier
-             */
+            // added logic to select courier
 
             // find all user with role "courier" and not deleted
             final var listCourier = this.userRepository.findAllByRolesNameEqualsIgnoreCaseAndIsDeleted("courier", false);
@@ -92,11 +99,56 @@ public class PickupServiceImpl implements PickupService {
             // generate no resi based on current millis
             request.setResi(String.valueOf(System.currentTimeMillis()));
 
-            // save request
+            // added logic to use user voucher
+            final var defaultPrice = this.checkPrice(PickupCheckPriceRequest
+                            .builder()
+                            .weight(request.getWeight())
+                            .lat(request.getLat())
+                            .lng(request.getLng())
+                            .build())
+                    .getPrice();
+
+            if (request.getUserVoucher() != null) {
+                final var userVoucher = request.getUserVoucher();
+
+                // check status user voucher before using it
+                switch (request.getUserVoucher().getStatus()) {
+                    case AVAILABLE ->
+                            throw new BadRequestException(String.format("the user voucher with id '%s' has not been claimed", userVoucher.getId()));
+
+                    case USED ->
+                            throw new BadRequestException(String.format("the user voucher with id '%s' already used", userVoucher.getId()));
+                }
+
+                final var voucher = userVoucher.getVoucher();
+                switch (voucher.getType()) {
+                    // if type of voucher is percent
+                    case PRICE -> {
+                        // TODO: currently not implemented
+                    }
+
+                    // if type of voucher is percent
+                    case PERCENT -> {
+                        final var price = (int) (defaultPrice - ((voucher.getValue() / 100D) * defaultPrice));
+                        request.setPrice(price);
+                    }
+                }
+
+                // update user voucher status to USED
+                userVoucher.setStatus(UserVoucherStatus.USED);
+                this.userVoucherRepository.save(userVoucher);
+
+                request.setUserVoucher(userVoucher);
+            } else {
+                request.setPrice(defaultPrice);
+            }
+
+            // save pickup request
             final var result = this.pickupRepository.save(request);
 
             return Optional.of(result);
         } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
             throw new DataAlreadyExists("this request pickup already exists");
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
@@ -149,12 +201,11 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
-    public PickupCheckPriceResponse checkPrice(int weight, int lat, int lng) {
+    public PickupCheckPriceResponse checkPrice(PickupCheckPriceRequest request) {
         try {
             // TODO: add logic to determine price of pickup
-            final var price = 1000;
             final var result = PickupCheckPriceResponse.builder()
-                    .price(price)
+                    .price(defaultPickupPrice)
                     .build();
             return result;
         } catch (Exception e) {
@@ -180,7 +231,7 @@ public class PickupServiceImpl implements PickupService {
 
     /**
      * @param request is request body to create new pickup
-     * @return result this method doesn't specify the courier and no resi
+     * @return result this method doesn't specify the courier, no resi, and price
      */
     @Override
     public Pickup fromRequestToEntity(PickupRequest request) {
@@ -209,6 +260,18 @@ public class PickupServiceImpl implements PickupService {
                 .createdAt(LocalDateTime.now())
                 .createdBy(this.userService.getCurrentUser().getId())
                 .build();
+
+        // check used user voucher
+        if (request.getUserVoucherId() != null) {
+            if (!request.getUserVoucherId().isEmpty() && !request.getUserVoucherId().isBlank()) {
+                final var userVoucher = this.userVoucherRepository.findById(request.getUserVoucherId());
+                if (userVoucher.isEmpty()) {
+                    throw new BadRequestException(String.format("user voucher with id '%s' not found", request.getUserVoucherId()));
+                } else {
+                    result.setUserVoucher(userVoucher.get());
+                }
+            }
+        }
 
         return result;
     }
