@@ -6,5 +6,10 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickupactivity.Pic
 import com.irdaislakhuafa.garbagepickupapi.services.converter.CRUDService;
 import com.irdaislakhuafa.garbagepickupapi.services.converter.EntityConverterService;
 
+import java.util.List;
+
 public interface PickupActivityService extends CRUDService<PickupActivity, String>, EntityConverterService<PickupActivity, PickupActivityRequest, PickupActivityUpdateRequest> {
+    List<PickupActivity> findAllByPickupId(final String pickupId);
+
+    List<PickupActivity> findAllByPickupResi(String pickupResi);
 }

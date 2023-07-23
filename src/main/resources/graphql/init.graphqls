@@ -5,6 +5,7 @@ type Query {
     trashType: TrashTypeQuery!
     voucher: VoucherQuery!
     userVoucher: UserVoucherQuery!
+    pickupActivity: PickupActivityQuery!
 }
 
 type Mutation {

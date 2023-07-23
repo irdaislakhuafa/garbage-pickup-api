@@ -2,6 +2,11 @@ type PickupActivityMutation {
     save(request: PickupActivityRequest!): PickupActivity
 }
 
+type PickupActivityQuery {
+    findAllByPickupId(pickupId: String): [PickupActivity!]
+    findAllByPickupResi(pickupResi: String!): [PickupActivity!]
+}
+
 type PickupActivity {
     id: String!
     pickup: Pickup!

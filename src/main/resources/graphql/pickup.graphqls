@@ -11,6 +11,7 @@ type PickupQuery {
 
 type Pickup {
     id: String!
+    resi: String!
     user: User!
     courier: User!
     status: PickupStatus!

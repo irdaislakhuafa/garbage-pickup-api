@@ -2,6 +2,7 @@ package com.irdaislakhuafa.garbagepickupapi.controllers.gql;
 
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickupactivity.PickupActivityQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.uservoucher.UserVoucherQuery;
@@ -20,6 +21,7 @@ public class GraphQLQuery {
     private final PickupQuery pickup;
     private final VoucherQuery voucher;
     private final UserVoucherQuery userVoucher;
+    private final PickupActivityQuery pickupActivity;
 
     @SchemaMapping(field = "hello")
     public HelloQuery helloQuery() {
@@ -49,5 +51,10 @@ public class GraphQLQuery {
     @SchemaMapping(field = "userVoucher")
     public UserVoucherQuery userVoucher() {
         return this.userVoucher;
+    }
+
+    @SchemaMapping(field = "pickupActivity")
+    public PickupActivityQuery pickupActivity() {
+        return this.pickupActivity;
     }
 }

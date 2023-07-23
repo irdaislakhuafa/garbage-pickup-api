@@ -74,4 +74,24 @@ public class PickupActivityServiceImpl implements PickupActivityService {
     public PickupActivity fromUpdateRequestToEntity(PickupActivityUpdateRequest request) {
         return null;
     }
+
+    @Override
+    public List<PickupActivity> findAllByPickupId(String pickupId) {
+        try {
+            final var results = this.pickupActivityRepository.findAllByPickupId(pickupId);
+            return results;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<PickupActivity> findAllByPickupResi(String pickupResi) {
+        try {
+            final var results = this.pickupActivityRepository.findAllByPickupResi(pickupResi);
+            return results;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
 }
