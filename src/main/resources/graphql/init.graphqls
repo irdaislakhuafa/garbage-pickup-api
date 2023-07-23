@@ -16,4 +16,5 @@ type Mutation {
     voucher: VoucherMutation!
     userVoucher: UserVoucherMutation!
     pickupActivity: PickupActivityMutation!
+    contactUs: ContactUsMutation!
 }

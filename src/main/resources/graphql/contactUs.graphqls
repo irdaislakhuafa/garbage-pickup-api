@@ -1,0 +1,23 @@
+type ContactUsMutation {
+    save(request: ContactUsRequest!): ContactUs
+}
+
+type ContactUs {
+    id: String!
+    image: String!
+    title: String!
+    description: String!
+    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdBy: String!
+    updatedAt: String
+    updatedBy: String
+    deletedAt: String
+    deletedBy: String
+    isDeleted: Boolean!
+}
+
+input ContactUsRequest {
+    image: String!
+    title: String!
+    description: String!
+}
