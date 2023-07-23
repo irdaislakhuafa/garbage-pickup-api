@@ -6,6 +6,7 @@ type Query {
     voucher: VoucherQuery!
     userVoucher: UserVoucherQuery!
     pickupActivity: PickupActivityQuery!
+    contactUs: ContactUsQuery!
 }
 
 type Mutation {
@@ -16,4 +17,5 @@ type Mutation {
     voucher: VoucherMutation!
     userVoucher: UserVoucherMutation!
     pickupActivity: PickupActivityMutation!
+    contactUs: ContactUsMutation!
 }

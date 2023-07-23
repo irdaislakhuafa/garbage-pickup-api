@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql;
 
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.contactus.ContactUsMutation;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupMutation;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickupactivity.PickupActivityMutation;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.role.RoleMutation;
@@ -22,6 +23,7 @@ public class GraphQLMutation {
     private final VoucherMutation voucher;
     private final UserVoucherMutation userVoucher;
     private final PickupActivityMutation pickupActivity;
+    private final ContactUsMutation contactUs;
 
     @SchemaMapping(field = "user")
     public UserMutation user() {
@@ -56,5 +58,10 @@ public class GraphQLMutation {
     @SchemaMapping(field = "pickupActivity")
     public PickupActivityMutation pickupActivity() {
         return this.pickupActivity;
+    }
+
+    @SchemaMapping(field = "contactUs")
+    public ContactUsMutation contactUs() {
+        return this.contactUs;
     }
 }
