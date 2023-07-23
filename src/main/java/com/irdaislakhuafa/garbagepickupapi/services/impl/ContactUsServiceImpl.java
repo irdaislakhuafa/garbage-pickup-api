@@ -50,7 +50,12 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     @Override
     public List<ContactUs> findAll() {
-        return null;
+        try {
+            final var results = this.contactUsRepository.findAll();
+            return results;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override

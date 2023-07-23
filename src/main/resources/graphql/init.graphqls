@@ -6,6 +6,7 @@ type Query {
     voucher: VoucherQuery!
     userVoucher: UserVoucherQuery!
     pickupActivity: PickupActivityQuery!
+    contactUs: ContactUsQuery!
 }
 
 type Mutation {

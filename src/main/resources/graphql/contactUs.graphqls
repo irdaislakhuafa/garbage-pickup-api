@@ -2,6 +2,10 @@ type ContactUsMutation {
     save(request: ContactUsRequest!): ContactUs
 }
 
+type ContactUsQuery {
+    findAll: [ContactUs!]
+}
+
 type ContactUs {
     id: String!
     image: String!
