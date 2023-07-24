@@ -41,4 +41,21 @@ app:
   config:
     date-format-layout: "dd/MM/yyyy HH:mm:ss"
     default-pickup-price: 10000
-    upload-dir: /tmp
+    upload-dir:
+      parent: /tmp
+      user: /user
+      voucher: /voucher
+      contactUs: /contactus
+
+minio:
+  url: http://localhost:9000
+  secret-key: xxx
+  access-key: xxx
+  presigned-url:
+    expired-in:
+      seconds: 86400 # one day
+  buckets:
+    defaults: defaults
+    users: users
+    vouchers: vouchers
+    contact-us: contact-us
