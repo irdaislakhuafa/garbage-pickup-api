@@ -6,8 +6,10 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.contactus.ContactU
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.contactus.ContactUsUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.ContactUsRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.ContactUsService;
+import com.irdaislakhuafa.garbagepickupapi.services.FileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,8 +18,10 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ContactUsServiceImpl implements ContactUsService {
     private final UserService userService;
+    private final FileService fileService;
     private final ContactUsRepository contactUsRepository;
 
     @Override
@@ -60,12 +64,21 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     @Override
     public ContactUs fromRequestToEntity(ContactUsRequest request) {
-        final var result = ContactUs.builder()
-                .image(request.getImage())
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .build();
-        return result;
+        try {
+            var filePath = "";
+            if (request.getImage() != null) {
+                filePath = this.fileService.upload(request.getImage());
+            }
+
+            final var result = ContactUs.builder()
+                    .image(filePath)
+                    .title(request.getTitle())
+                    .description(request.getDescription())
+                    .build();
+            return result;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
