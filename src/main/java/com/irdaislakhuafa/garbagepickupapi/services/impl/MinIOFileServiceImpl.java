@@ -4,6 +4,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import io.minio.*;
 import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MinIOFileServiceImpl implements MinIOFileService {
     private final MinioClient minioClient;
 
@@ -65,13 +67,13 @@ public class MinIOFileServiceImpl implements MinIOFileService {
 
     @Override
     public String getPresignedUrl(PresignedUrl presignedUrl) throws Exception {
-        this.minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+        final var url = this.minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .bucket(presignedUrl.getBucketName())
                 .object(presignedUrl.getFileName())
                 .method(Method.GET)
                 .expiry(this.PRESIGNED_URL_EXPIRED_IN_SECONDS)
                 .build());
-        return null;
+        return url;
     }
 
     @Override

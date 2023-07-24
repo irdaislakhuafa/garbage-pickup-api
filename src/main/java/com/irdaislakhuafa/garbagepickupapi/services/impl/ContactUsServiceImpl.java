@@ -6,8 +6,9 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.contactus.ContactU
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.contactus.ContactUsUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.ContactUsRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.ContactUsService;
-import com.irdaislakhuafa.garbagepickupapi.services.FileService;
+import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ import java.util.Optional;
 @Slf4j
 public class ContactUsServiceImpl implements ContactUsService {
     private final UserService userService;
-    private final FileService fileService;
+    private final MinIOFileService minIOFileService;
     private final ContactUsRepository contactUsRepository;
 
     @Override
+    @Transactional
     public Optional<ContactUs> save(ContactUs request) {
         try {
             request.setCreatedAt(LocalDateTime.now());
@@ -63,12 +65,13 @@ public class ContactUsServiceImpl implements ContactUsService {
     }
 
     @Override
+    @Transactional
     public ContactUs fromRequestToEntity(ContactUsRequest request) {
         try {
             var filePath = "";
-            if (request.getImage() != null) {
-                filePath = this.fileService.upload(request.getImage());
-            }
+//            if (request.getImage() != null) {
+//                filePath = this.fileService.upload(request.getImage());
+//            }
 
             final var result = ContactUs.builder()
                     .image(filePath)

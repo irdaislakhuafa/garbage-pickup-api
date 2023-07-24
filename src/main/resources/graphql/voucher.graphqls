@@ -27,7 +27,7 @@ type Voucher {
 input VoucherRequest {
     title: String!
     description: String!
-    image: String!
+    image: Upload
     pointsNeeded: Int!
     type: VoucherType!
     value: Int!

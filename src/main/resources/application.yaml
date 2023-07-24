@@ -29,6 +29,16 @@ spring:
       ddl-auto: update # set to "none" in production
     show-sql: false
     generate-ddl: true # set to false in production
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# server configuration
+server:
+  tomcat:
+    max-swallow-size: 10MB # use -1 to unlimited size
 
 # my custom configuration for jwt auth token
 jwt:
@@ -49,8 +59,8 @@ app:
 
 minio:
   url: http://localhost:9000
-  secret-key: xxx
   access-key: xxx
+  secret-key: xxx
   presigned-url:
     expired-in:
       seconds: 86400 # one day

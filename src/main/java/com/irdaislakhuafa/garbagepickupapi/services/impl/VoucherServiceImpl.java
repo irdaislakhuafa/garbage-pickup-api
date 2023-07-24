@@ -5,9 +5,12 @@ import com.irdaislakhuafa.garbagepickupapi.models.entities.Voucher;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.voucher.VoucherRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.voucher.VoucherUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.repository.VoucherRepository;
+import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import com.irdaislakhuafa.garbagepickupapi.services.VoucherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,9 +19,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
     private final UserService userService;
+    private final MinIOFileService minIOFileService;
+
+    @Value(value = "${minio.buckets.vouchers}")
+    private String BUCKET_VOUCHERS;
 
     @Override
     public Optional<Voucher> save(Voucher request) {
@@ -57,10 +65,21 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public Voucher fromRequestToEntity(VoucherRequest request) {
         try {
+
+            var imageLink = "";
+            if (request.getImage() != null) {
+                final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_VOUCHERS);
+                imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                        .builder()
+                        .bucketName(this.BUCKET_VOUCHERS)
+                        .fileName(imageFileName)
+                        .build());
+            }
+
             final var result = Voucher.builder()
                     .title(request.getTitle())
                     .description(request.getDescription())
-                    .image(request.getImage())
+                    .image(imageLink)
                     .pointsNeeded(request.getPointsNeeded())
                     .type(request.getType())
                     .value(request.getValue())
