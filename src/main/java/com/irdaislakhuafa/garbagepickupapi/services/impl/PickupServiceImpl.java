@@ -16,6 +16,7 @@ import com.irdaislakhuafa.garbagepickupapi.repository.TrashTypeRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserVoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.PickupService;
+import com.irdaislakhuafa.garbagepickupapi.services.ReceiptService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -39,7 +40,7 @@ public class PickupServiceImpl implements PickupService {
     private final UserService userService;
     private final UserVoucherRepository userVoucherRepository;
     private final DistanceCalculatorHelper distanceCalculatorHelper;
-    //    private final SimpleDateFormat dateFormatter;
+    private final ReceiptService receiptService;
 
     @Value(value = "${app.config.date-format-layout}")
     private String dateFormatLayout;
@@ -156,6 +157,7 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
+    @Transactional
     public Optional<Pickup> update(Pickup request) {
         try {
             final var pickup = this.pickupRepository.findById(request.getId());

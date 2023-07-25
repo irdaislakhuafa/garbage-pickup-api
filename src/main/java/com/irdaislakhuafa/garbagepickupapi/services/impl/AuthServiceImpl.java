@@ -36,7 +36,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtTokenResponse login(UserLoginRequest request) {
-        log.info("trying to login");
         try {
             final var user = this.userRepository.findByEmail(request.getEmail());
 
