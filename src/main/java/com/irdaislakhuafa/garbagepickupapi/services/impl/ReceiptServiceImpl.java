@@ -62,8 +62,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Optional<Receipt> findById(String s) {
-        return Optional.empty();
+    public Optional<Receipt> findById(String id) {
+        return this.receiptRepository.findById(id);
     }
 
     @Override
@@ -91,5 +91,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public Receipt fromUpdateRequestToEntity(ReceiptUpdateRequest request) {
         return null;
+    }
+
+    @Override
+    public Optional<Receipt> findByPickupId(String pickupId) {
+        final var result = this.receiptRepository.findByPickupId(pickupId);
+        return result;
     }
 }

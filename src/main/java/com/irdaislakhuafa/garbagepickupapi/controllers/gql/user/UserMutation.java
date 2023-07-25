@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserMutation {
     private final UserService userService;
-    private final AuthService loginAndRegisterService;
+    private final AuthService authService;
 
     @SchemaMapping
     public Optional<User> save(@Argument(name = "request") UserRequest request) {
@@ -30,7 +30,7 @@ public class UserMutation {
 
     @SchemaMapping
     public Optional<JwtTokenResponse> login(@Argument(name = "request") UserLoginRequest request) {
-        final var result = this.loginAndRegisterService.login(request);
+        final var result = this.authService.login(request);
         return Optional.ofNullable(result);
     }
 

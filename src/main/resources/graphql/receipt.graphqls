@@ -2,6 +2,11 @@ type ReceiptMutation {
     save(request: ReceiptRequest!): Receipt
 }
 
+type ReceiptQuery {
+    findById(id: String!): Receipt
+    findByPickupId(pickupId: String!): Receipt
+}
+
 type Receipt {
     id: String!
     status: ReceiptStatus!
