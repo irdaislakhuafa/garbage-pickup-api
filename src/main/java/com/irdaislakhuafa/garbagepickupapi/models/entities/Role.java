@@ -2,7 +2,10 @@ package com.irdaislakhuafa.garbagepickupapi.models.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity(name = "`role`")
@@ -12,9 +15,9 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role extends BaseEntity {
-	@Column(nullable = false, unique = true)
-	private String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	@Column(nullable = true, unique = false)
-	private String description;
+    @Column
+    private String description;
 }
