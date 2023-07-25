@@ -39,7 +39,7 @@ services:
       - MINIO_ROOT_USER=miniouser
       - MINIO_ROOT_PASSWORD=miniouser
     volumes:
-      - "/tmp/garbage-pickup-storage:/files"
+      - "/home/artix/.cache/garbage-pickup-storage:/files"
     entrypoint: "minio server /files --console-address ':9001'"
 networks:
   garbage-pickup-network: { }

@@ -59,8 +59,8 @@ app:
 
 minio:
   url: http://localhost:9000
-  access-key: xxx
-  secret-key: xxx
+  access-key: x
+  secret-key: x
   presigned-url:
     expired-in:
       seconds: 86400 # one day
