@@ -1,0 +1,23 @@
+type Receipt {
+    id: String!
+    status: ReceiptStatus!
+    point: Int!
+    pickup: Pickup!
+    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdBy: String!
+    updatedAt: String
+    updatedBy: String
+    deletedAt: String
+    deletedBy: String
+    isDeleted: Boolean!
+}
+
+enum ReceiptStatus {
+    CANCELED, AWAITING, PROCESSING, SUCCESS
+}
+
+input ReceiptRequest {
+    status: ReceiptStatus!
+    point: Int!
+    pickupId: String!
+}
