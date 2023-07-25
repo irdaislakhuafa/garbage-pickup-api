@@ -39,7 +39,6 @@ public class PickupServiceImpl implements PickupService {
     private final UserService userService;
     private final UserVoucherRepository userVoucherRepository;
     private final DistanceCalculatorHelper distanceCalculatorHelper;
-    //    private final SimpleDateFormat dateFormatter;
 
     @Value(value = "${app.config.date-format-layout}")
     private String dateFormatLayout;
