@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import io.minio.*;
 import io.minio.http.Method;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -44,6 +47,16 @@ public class MinIOFileServiceImpl implements MinIOFileService {
             upload.setBucketName(this.BUCKET_DEFAULTS);
         }
 
+        // check file size
+        if (upload.getSize() <= 0) {
+            throw new BadRequestException(String.format("your size is %d, make sure your file is valid or not corrupt", upload.getSize()));
+        }
+
+        // check file name extension
+        if (this.getExtension(upload.getFileName()).equals("")) {
+            throw new BadRequestException("your file doesn't have any extension, please use file with valid extension");
+        }
+
         final Supplier<String> getFileName = () -> {
             if (upload.getFileName() != null) {
                 if (!upload.getFileName().isEmpty() && !upload.getFileName().isBlank()) {
@@ -74,6 +87,13 @@ public class MinIOFileServiceImpl implements MinIOFileService {
                 .expiry(this.PRESIGNED_URL_EXPIRED_IN_SECONDS)
                 .build());
         return url;
+    }
+
+    @Override
+    public String getFileNameFromPresignedUrl(String url) throws Exception {
+        final var uri = new URI(url);
+        final var fileName = Paths.get(uri.getPath()).getFileName().toString();
+        return fileName;
     }
 
     @Override

@@ -18,6 +18,8 @@ public interface MinIOFileService extends FileService {
      */
     String getPresignedUrl(PresignedUrl presignedUrl) throws Exception;
 
+    String getFileNameFromPresignedUrl(String url) throws Exception;
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
