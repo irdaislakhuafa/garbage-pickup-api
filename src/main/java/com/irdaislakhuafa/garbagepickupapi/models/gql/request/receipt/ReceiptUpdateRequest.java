@@ -10,7 +10,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class ReceiptRequest {
+public class ReceiptUpdateRequest {
+    private String id;
     private ReceiptStatus status;
+    private int point;
     private String pickupId;
 }
