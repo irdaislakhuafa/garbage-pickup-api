@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -45,9 +47,11 @@ public class VoucherScheduller {
                         voucher.setImage(newImageLink);
                     }
                 }
+
+                voucher.setUpdatedAt(LocalDateTime.now());
+                voucher.setUpdatedBy("scheduller");
             } catch (Exception e) {
                 log.error(e.getMessage());
-                throw new RuntimeException(e);
             }
         }).toList();
 

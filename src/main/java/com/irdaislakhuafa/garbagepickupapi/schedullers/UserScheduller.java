@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +30,6 @@ public class UserScheduller {
         // override list users on image field with new presigned url
         listUser = listUser.stream().peek(user -> {
             try {
-
                 if (user.getImage() != null) {
                     if (!user.getImage().isEmpty() && !user.getImage().isBlank()) {
                         final var fileName = this.minIOFileService.getFileNameFromPresignedUrl(user.getImage());
@@ -40,9 +41,11 @@ public class UserScheduller {
                         user.setImage(newImageLink);
                     }
                 }
+
+                user.setUpdatedAt(LocalDateTime.now());
+                user.setUpdatedBy("scheduller");
             } catch (Exception e) {
                 log.error(e.getMessage());
-                throw new RuntimeException(e.getMessage());
             }
         }).toList();
 
