@@ -21,8 +21,7 @@ public class Voucher extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    //	TODO: upload file image
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String image;
 
     @Column(nullable = false)
@@ -35,5 +34,4 @@ public class Voucher extends BaseEntity {
 
     @Column(nullable = false)
     private int value;
-
 }

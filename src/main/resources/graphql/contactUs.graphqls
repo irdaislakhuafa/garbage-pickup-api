@@ -21,7 +21,7 @@ type ContactUs {
 }
 
 input ContactUsRequest {
-    image: String!
+    image: Upload!
     title: String!
     description: String!
 }

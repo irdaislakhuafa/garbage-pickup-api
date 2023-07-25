@@ -36,8 +36,7 @@ public class UserMutation {
 
     @SchemaMapping
     public Optional<User> update(@Argument(value = "request") UserUpdateRequest request) {
-        final var user = this.userService.fromUpdateRequestToEntity(request);
-        final var result = this.userService.update(user);
+        final var result = this.userService.update(request);
         return result;
     }
 

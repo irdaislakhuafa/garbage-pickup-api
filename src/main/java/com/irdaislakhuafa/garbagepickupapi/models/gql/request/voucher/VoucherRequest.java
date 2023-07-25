@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class VoucherRequest {
     private String title;
     private String description;
-    private String image;
+    private MultipartFile image;
     private int pointsNeeded;
     private VoucherType type;
     private int value;

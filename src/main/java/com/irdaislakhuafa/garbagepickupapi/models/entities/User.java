@@ -29,7 +29,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String image;
 
     @Column(nullable = false, unique = true)
