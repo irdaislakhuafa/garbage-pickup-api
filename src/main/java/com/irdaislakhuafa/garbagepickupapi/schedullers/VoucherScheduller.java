@@ -35,18 +35,18 @@ public class VoucherScheduller {
                     if (!voucher.getImage().isEmpty() && !voucher.getImage().isBlank()) {
                         // get file name by method from MinIOFileService
                         final var fileName = this.minIOFileService.getFileNameFromPresignedUrl(voucher.getImage());
-                        final var newImageUrl = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                        final var newImageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
                                 .builder()
                                 .bucketName(this.BUCKET_VOUCHERS)
                                 .fileName(fileName)
                                 .build());
 
                         // update signed url for image
-                        voucher.setImage(newImageUrl);
+                        voucher.setImage(newImageLink);
                     }
                 }
             } catch (Exception e) {
-                log.error("failed to get file name from presigned url, {}", e.getMessage());
+                log.error(e.getMessage());
                 throw new RuntimeException(e);
             }
         }).toList();
