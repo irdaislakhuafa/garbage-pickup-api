@@ -8,6 +8,7 @@ import com.irdaislakhuafa.garbagepickupapi.repository.VoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import com.irdaislakhuafa.garbagepickupapi.services.VoucherService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,11 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Optional<Voucher> update(Voucher request) {
+        try {
+            // TODO: update field image
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
         return Optional.empty();
     }
 
@@ -63,28 +69,27 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    @Transactional
     public Voucher fromRequestToEntity(VoucherRequest request) {
         try {
-
-            var imageLink = "";
-            if (request.getImage() != null) {
-                final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_VOUCHERS);
-                imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
-                        .builder()
-                        .bucketName(this.BUCKET_VOUCHERS)
-                        .fileName(imageFileName)
-                        .build());
-            }
-
             final var result = Voucher.builder()
                     .title(request.getTitle())
                     .description(request.getDescription())
-                    .image(imageLink)
                     .pointsNeeded(request.getPointsNeeded())
                     .type(request.getType())
                     .value(request.getValue())
                     .build();
-            
+
+            if (request.getImage() != null) {
+                final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_VOUCHERS);
+                final var imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                        .builder()
+                        .bucketName(this.BUCKET_VOUCHERS)
+                        .fileName(imageFileName)
+                        .build());
+                result.setImage(imageLink);
+            }
+
             return result;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());

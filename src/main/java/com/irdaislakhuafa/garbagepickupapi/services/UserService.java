@@ -22,6 +22,8 @@ public interface UserService extends UserDetailsService, EntityConverterService<
      */
     Optional<User> update(User request);
 
+    Optional<User> update(UserUpdateRequest request);
+
 
     User getCurrentUser();
 

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class UserUpdateRequest {
     private String id;
     private String name;
     private String email;
-    private String image;
+    private MultipartFile image;
     private String phone;
     private String address;
     @Builder.Default

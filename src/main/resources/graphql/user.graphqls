@@ -64,7 +64,7 @@ input UserUpdateRequest {
     id: String!
     name: String!
     email: String!
-    image: String!
+    image: Upload # leave blank if you don't want to change the image
     phone: String!
     address: String!
     saldo: Int!

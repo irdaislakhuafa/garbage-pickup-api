@@ -12,6 +12,7 @@ import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -147,10 +148,37 @@ public class UserServiceImpl implements UserService {
         user.get().setUpdatedBy(this.getCurrentUser().getId());
         user.get().setUpdatedAt(LocalDateTime.now());
 
-        // TODO: upload file image
-
         final var updated = this.userRepository.save(user.get());
         return Optional.of(updated);
+    }
+
+    @Override
+    public Optional<User> update(UserUpdateRequest request) {
+        final var user = this.userRepository.findById(request.getId());
+        if (user.isEmpty()) {
+            throw new DataNotFound(String.format("user with id '%s' not found, please register first", request.getId()));
+        }
+
+        final var converted = this.fromUpdateRequestToEntity(request);
+        try {
+            if (request.getImage() != null) {
+                if (!request.getImage().isEmpty()) {
+                    final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_USERS);
+                    final var imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                            .builder()
+                            .bucketName(this.BUCKET_USERS)
+                            .fileName(imageFileName)
+                            .build());
+                    converted.setImage(imageLink);
+                }
+            } else {
+                converted.setImage(user.get().getImage());
+            }
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
+
+        return this.update(converted);
     }
 
     @Override
@@ -159,32 +187,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User fromUpdateRequestToEntity(UserUpdateRequest request) {
-        final var roles = new ArrayList<Role>();
-        request.getRoles().forEach(v -> {
-            final var role = roleRepository.findByNameEqualsIgnoreCase(v.name());
-            if (role.isPresent()) {
-                roles.add(role.get());
-            } else {
-                throw new DataNotFound("role with name '" + v.name() + "'' not found");
-            }
-        });
+        try {
 
-        final var result = User.builder()
-                .id(request.getId())
-                .name(request.getName())
-                .email(request.getEmail())
-                .image(request.getImage())
-                .phone(request.getPhone())
-                .address(request.getAddress())
-                .saldo(request.getSaldo())
-                .point(request.getPoint())
-                .roles(roles)
-                .isDeleted(request.isDeleted())
-                .updatedBy(this.getCurrentUser().getId())
-                .build();
+            final var roles = new ArrayList<Role>();
+            request.getRoles().forEach(v -> {
+                final var role = roleRepository.findByNameEqualsIgnoreCase(v.name());
+                if (role.isPresent()) {
+                    roles.add(role.get());
+                } else {
+                    throw new DataNotFound("role with name '" + v.name() + "'' not found");
+                }
+            });
 
-        return result;
+            final var result = User.builder()
+                    .id(request.getId())
+                    .name(request.getName()) // doesn't mapping field image
+                    .email(request.getEmail())
+                    .phone(request.getPhone())
+                    .address(request.getAddress())
+                    .saldo(request.getSaldo())
+                    .point(request.getPoint())
+                    .roles(roles)
+                    .isDeleted(request.isDeleted())
+                    .updatedBy(this.getCurrentUser().getId())
+                    .build();
+
+            return result;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
