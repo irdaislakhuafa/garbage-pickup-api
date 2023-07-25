@@ -11,6 +11,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,9 @@ public class ContactUsServiceImpl implements ContactUsService {
     private final UserService userService;
     private final MinIOFileService minIOFileService;
     private final ContactUsRepository contactUsRepository;
+
+    @Value(value = "${minio.buckets.contact-us}")
+    private String BUCKET_CONTACT_US;
 
     @Override
     @Transactional
@@ -68,13 +72,19 @@ public class ContactUsServiceImpl implements ContactUsService {
     @Transactional
     public ContactUs fromRequestToEntity(ContactUsRequest request) {
         try {
-            var filePath = "";
-//            if (request.getImage() != null) {
-//                filePath = this.fileService.upload(request.getImage());
-//            }
+            if (request.getImage() == null) {
+                throw new BadRequestException("field image cannot be null");
+            }
+
+            final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_CONTACT_US);
+            final var imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                    .builder()
+                    .bucketName(this.BUCKET_CONTACT_US)
+                    .fileName(imageFileName)
+                    .build());
 
             final var result = ContactUs.builder()
-                    .image(filePath)
+                    .image(imageLink)
                     .title(request.getTitle())
                     .description(request.getDescription())
                     .build();
