@@ -40,7 +40,7 @@ input UserRequest {
     name: String!
     email: String!
     password: String!
-    image: String!
+    image: Upload
     phone: String!
     address: String!
     saldo: Int!

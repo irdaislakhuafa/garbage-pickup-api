@@ -84,6 +84,7 @@ public class VoucherServiceImpl implements VoucherService {
                     .type(request.getType())
                     .value(request.getValue())
                     .build();
+            
             return result;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());

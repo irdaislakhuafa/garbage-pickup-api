@@ -1,7 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
-import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataNotFound;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.LastLocation;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
@@ -11,10 +10,11 @@ import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateReq
 import com.irdaislakhuafa.garbagepickupapi.repository.LastLocationRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.RoleRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
+import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final LastLocationRepository lastLocationRepository;
+    private final MinIOFileService minIOFileService;
+
+    @Value(value = "${minio.buckets.users}")
+    private String BUCKET_USERS;
 
     @Override
     public Optional<User> save(User user) {
@@ -47,9 +51,7 @@ public class UserServiceImpl implements UserService {
 
             final var result = this.userRepository.save(user);
 
-            return Optional.ofNullable(result);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataAlreadyExists("user already exists");
+            return Optional.of(result);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
@@ -57,30 +59,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User fromRequestToEntity(UserRequest request) {
-        final var roles = new ArrayList<Role>();
-        request.getRoles().forEach(v -> {
-            final var role = roleRepository.findByNameEqualsIgnoreCase(v.name());
-            if (role.isPresent()) {
-                roles.add(role.get());
-            } else {
-                throw new DataNotFound("role with name '" + v.name() + "'' not found");
+        try {
+
+            final var roles = new ArrayList<Role>();
+            request.getRoles().forEach(v -> {
+                final var role = roleRepository.findByNameEqualsIgnoreCase(v.name());
+                if (role.isPresent()) {
+                    roles.add(role.get());
+                } else {
+                    throw new DataNotFound("role with name '" + v.name() + "'' not found");
+                }
+            });
+
+            var imageLink = "";
+            if (request.getImage() != null) {
+                final var imageFileName = this.minIOFileService.upload(request.getImage(), this.BUCKET_USERS);
+                imageLink = this.minIOFileService.getPresignedUrl(MinIOFileService.PresignedUrl
+                        .builder()
+                        .bucketName(this.BUCKET_USERS)
+                        .fileName(imageFileName)
+                        .build());
             }
-        });
 
-        final var result = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .image(request.getImage())
-                .phone(request.getPhone())
-                .address(request.getAddress())
-                .saldo(request.getSaldo())
-                .point(request.getPoint())
-                .roles(roles)
-                .createdBy(this.getCurrentUser().getId())
-                .build();
+            final var result = User.builder()
+                    .name(request.getName())
+                    .email(request.getEmail())
+                    .password(request.getPassword())
+                    .image(imageLink)
+                    .phone(request.getPhone())
+                    .address(request.getAddress())
+                    .saldo(request.getSaldo())
+                    .point(request.getPoint())
+                    .roles(roles)
+                    .createdBy(this.getCurrentUser().getId())
+                    .build();
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     @Override
