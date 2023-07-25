@@ -22,7 +22,7 @@ public class UserScheduller {
 
     @Scheduled(cron = "0 0 0 * * *")
     public void updateImagePresignedUrl() throws Exception {
-        log.info("updating presigned url for image users");
+        log.info("updating presigned url for image contact us");
 
         // get list users with is deleted false
         var listUser = this.userRepository.findAllByIsDeleted(false);
