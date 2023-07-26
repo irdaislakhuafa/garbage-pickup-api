@@ -1,4 +1,4 @@
-package com.irdaislakhuafa.garbagepickupapi.controllers.restapi;
+package com.irdaislakhuafa.garbagepickupapi.controllers.rest;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(value = {"/users"})
+@RequestMapping(value = {"api/rest/users"})
 @RestController
 @RequiredArgsConstructor
 @Validated

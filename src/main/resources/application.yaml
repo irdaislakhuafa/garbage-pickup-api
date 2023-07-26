@@ -69,3 +69,12 @@ minio:
     users: users
     vouchers: vouchers
     contact-us: contact-us
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /api/rest/docs
+    syntaxHighlight:
+      activated: true
+
+  pathsToMatch: /api/rest/**
