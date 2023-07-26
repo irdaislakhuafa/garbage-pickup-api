@@ -22,7 +22,7 @@ public class UserMutation {
     private final AuthService authService;
 
     @SchemaMapping
-    public Optional<User> save(@Argument(name = "request") UserRequest request) {
+    public Optional<User> register(@Argument(name = "request") UserRequest request) {
         final var user = this.userService.fromRequestToEntity(request);
         final var result = this.userService.save(user);
         return result;
