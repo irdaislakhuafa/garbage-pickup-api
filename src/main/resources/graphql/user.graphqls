@@ -1,5 +1,5 @@
 type UserMutation {
-    save(request: UserRequest!): User
+    register(request: UserRequest!): User
     update(request: UserUpdateRequest): User
     login(request: UserLoginRequest!): JwtTokenResponse
 }
