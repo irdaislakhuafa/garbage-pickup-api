@@ -1,6 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.exceptions.rest;
 
-import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.*;
 import com.irdaislakhuafa.garbagepickupapi.models.rest.response.RestResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -27,8 +27,8 @@ public class RestGeneralExceptionHandler {
         return result;
     }
 
-    @ExceptionHandler(value = {BadRequestException.class})
-    public ResponseEntity<?> badRequest(BadRequestException e) {
+    @ExceptionHandler(value = {BadRequestException.class, DataAlreadyExists.class, DataNotFound.class, InvalidPassword.class, JwtTokenExpired.class, JwtTokenNotValid.class, UserNotAvailable.class})
+    public ResponseEntity<?> badRequest(RuntimeException e) {
         final var errors = new HashMap<String, Object>() {{
             put("error", e.getMessage());
         }};
