@@ -10,11 +10,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,6 +35,15 @@ public class TrashTypeController {
         final var result = this.trashTypeService.save(trashType);
         return ResponseEntity.ok(RestResponse.<TrashType, Map<String, Object>>builder()
                 .data(result.get())
+                .build());
+    }
+
+    @Operation(summary = "Used to find all trash type")
+    @GetMapping
+    public ResponseEntity<RestResponse<List<TrashType>, Map<String, Object>>> findAll() {
+        final var results = this.trashTypeService.findAll();
+        return ResponseEntity.ok(RestResponse.<List<TrashType>, Map<String, Object>>builder()
+                .data(results)
                 .build());
     }
 }
