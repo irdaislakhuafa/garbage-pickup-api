@@ -47,4 +47,13 @@ public class RoleController {
                 .data(results)
                 .build());
     }
+
+    @Operation(summary = "Used to find role by id")
+    @GetMapping(value = {"/{id}"})
+    public ResponseEntity<RestResponse<Role, Map<String, Object>>> findById(@PathVariable(name = "id") String id) {
+        final var result = this.roleService.findById(id);
+        return ResponseEntity.ok(RestResponse.<Role, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
 }
