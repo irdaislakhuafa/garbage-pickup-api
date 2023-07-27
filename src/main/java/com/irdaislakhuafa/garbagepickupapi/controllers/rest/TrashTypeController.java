@@ -46,4 +46,13 @@ public class TrashTypeController {
                 .data(results)
                 .build());
     }
+
+    @Operation(summary = "Used to find trash type by id")
+    @GetMapping(value = {"/{id}"})
+    public ResponseEntity<RestResponse<TrashType, Map<String, Object>>> findById(@PathVariable(name = "id") String id) {
+        final var result = this.trashTypeService.findById(id);
+        return ResponseEntity.ok(RestResponse.<TrashType, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
 }
