@@ -15,7 +15,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class ContactUs extends BaseEntity {
-    // TODO: upload image
     @Column(nullable = false, length = 5000)
     private String image;
 
