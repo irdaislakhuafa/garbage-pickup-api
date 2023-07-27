@@ -285,7 +285,7 @@ public class PickupServiceImpl implements PickupService {
             throw new BadRequestException(String.format("user with id '%s' does not exist", request.getUserId()));
         }
 
-        final var trashType = this.trashTypeRepository.findById(request.getId());
+        final var trashType = this.trashTypeRepository.findById(request.getTrashTypeId());
         if (trashType.isEmpty()) {
             throw new BadRequestException(String.format("trash type with id '%s' does not exist", request.getTrashTypeId()));
         }
