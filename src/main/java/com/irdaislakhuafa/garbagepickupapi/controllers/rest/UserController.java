@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value = {"/api/rest/users"})
@@ -79,4 +80,12 @@ public class UserController {
                 .build());
     }
 
+    @Operation(summary = "Used to get list of users")
+    @GetMapping
+    public ResponseEntity<RestResponse<List<User>, Map<String, Object>>> findAll() {
+        final var results = this.userService.findAll();
+        return ResponseEntity.ok(RestResponse.<List<User>, Map<String, Object>>builder()
+                .data(results)
+                .build());
+    }
 }
