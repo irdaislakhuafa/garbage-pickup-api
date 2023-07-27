@@ -88,4 +88,13 @@ public class UserController {
                 .data(results)
                 .build());
     }
+
+    @Operation(summary = "Used to get user by user id")
+    @GetMapping(value = {"/{id}"})
+    public ResponseEntity<RestResponse<User, Map<String, Object>>> findById(@PathVariable(name = "id") String id) {
+        final var result = this.userService.findById(id);
+        return ResponseEntity.ok(RestResponse.<User, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
 }
