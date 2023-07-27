@@ -3,7 +3,7 @@ type UserVoucherQuery {
 }
 
 type UserVoucherMutation {
-    exchange(userId: String!, listId: [String!]!): [UserVoucher]
+    exchange(request: UserVoucherExchangeRequest!): [UserVoucher]
 }
 
 type UserVoucher {
@@ -27,4 +27,9 @@ enum UserVoucherStatus {
 input UserVoucherFindAllByUserIdAndStatus {
     userId: String!
     statuses: [UserVoucherStatus!]!
+}
+
+input UserVoucherExchangeRequest {
+    userId: String!
+    listId: [String!]!
 }
