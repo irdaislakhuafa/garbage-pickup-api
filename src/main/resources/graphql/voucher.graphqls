@@ -4,7 +4,7 @@ type VoucherMutation {
 
 type VoucherQuery {
     findAll: [Voucher!]
-    findById: [Voucher!]
+    findById(id: String!): Voucher
 }
 
 type Voucher {

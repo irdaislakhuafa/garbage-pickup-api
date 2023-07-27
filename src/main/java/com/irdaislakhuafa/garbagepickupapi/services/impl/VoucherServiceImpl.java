@@ -58,8 +58,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> findById(String s) {
-        return Optional.empty();
+    public Optional<Voucher> findById(String id) {
+        return this.voucherRepository.findById(id);
     }
 
     @Override
