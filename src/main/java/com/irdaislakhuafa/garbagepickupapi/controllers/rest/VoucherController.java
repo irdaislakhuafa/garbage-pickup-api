@@ -40,12 +40,21 @@ public class VoucherController {
                 .build());
     }
 
-    @Operation(summary = "Used to get list of voucher")
+    @Operation(summary = "Used to find list of voucher")
     @GetMapping
     public ResponseEntity<RestResponse<List<Voucher>, Map<String, Object>>> findAll() {
         final var results = this.voucherService.findAll();
         return ResponseEntity.ok(RestResponse.<List<Voucher>, Map<String, Object>>builder()
                 .data(results)
+                .build());
+    }
+
+    @Operation(summary = "Used to find voucher by id")
+    @GetMapping(value = {"/{id}"})
+    public ResponseEntity<RestResponse<Voucher, Map<String, Object>>> findById(@PathVariable(name = "id") String id) {
+        final var result = this.voucherService.findById(id);
+        return ResponseEntity.ok(RestResponse.<Voucher, Map<String, Object>>builder()
+                .data(result.get())
                 .build());
     }
 }
