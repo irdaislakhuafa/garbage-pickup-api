@@ -3,6 +3,7 @@ package com.irdaislakhuafa.garbagepickupapi.controllers.rest;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserLoginRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.user.UserUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.response.JwtTokenResponse;
 import com.irdaislakhuafa.garbagepickupapi.models.rest.response.RestResponse;
 import com.irdaislakhuafa.garbagepickupapi.services.AuthService;
@@ -33,8 +34,8 @@ public class UserController {
                     @Parameter(name = "image", description = "The image field is used for the user's profile photo, this field is optional, you can leave it empty")
             }
     )
-    @PostMapping(value = {"/register"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RestResponse<User, Map<String, Object>>> register(@RequestBody @ModelAttribute @Valid UserRequest request, Errors errors) {
+    @PostMapping(value = {"/register"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<RestResponse<User, Map<String, Object>>> register(@ModelAttribute @Valid UserRequest request, Errors errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(RestResponse.<User, Map<String, Object>>builder()
@@ -62,4 +63,20 @@ public class UserController {
                 .data(result)
                 .build());
     }
+
+    @Operation(summary = "Used to update data user")
+    @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<RestResponse<User, Map<String, Object>>> update(@ModelAttribute @Valid UserUpdateRequest request, Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(RestResponse.<User, Map<String, Object>>builder()
+                            .errors(this.restValidationService.getListErrors(errors))
+                            .build());
+        }
+        final var result = this.userService.update(request);
+        return ResponseEntity.ok(RestResponse.<User, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
+
 }
