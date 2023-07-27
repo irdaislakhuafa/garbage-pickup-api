@@ -4,6 +4,7 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException
 import com.irdaislakhuafa.garbagepickupapi.models.entities.UserVoucher;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Voucher;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.UserVoucherStatus;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.uservoucher.UserVoucherFindAllByUserIdAndStatus;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.UserVoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.repository.VoucherRepository;
@@ -30,20 +31,20 @@ public class UserVoucherServiceImpl implements UserVoucherService {
     private final UserService userService;
 
     @Override
-    public List<UserVoucher> findAll(final String userId, final List<UserVoucherStatus> status) {
+    public List<UserVoucher> findAll(UserVoucherFindAllByUserIdAndStatus request) {
         try {
             // get current user
             final var currentUser = this.userService.getCurrentUser();
 
             // get user and throw exception if user doesn't exist
-            final var user = this.userRepository.findById(userId);
+            final var user = this.userRepository.findById(request.getUserId());
             if (user.isEmpty()) {
-                throw new BadRequestException(String.format("user with id '%s' not found", userId));
+                throw new BadRequestException(String.format("user with id '%s' not found", request.getUserId()));
             }
 
             // find all voucher with is deleted false
             final var listVoucher = this.voucherRepository.findAllByIsDeleted(false);
-            final var listUserVoucher = this.userVoucherRepository.findAllByUserId(userId);
+            final var listUserVoucher = this.userVoucherRepository.findAllByUserId(request.getUserId());
 
             // filter non existing voucher in listUserVoucher
             final Predicate<Voucher> isExists = voucher -> {
@@ -77,8 +78,8 @@ public class UserVoucherServiceImpl implements UserVoucherService {
             listUserVoucher.addAll(savedNonExistingUserVoucher);
 
             // if status parameter is not empty, remove each element userVoucher if status doesn't contain in status from parameter
-            if (!status.isEmpty()) {
-                listUserVoucher.removeIf(userVoucher -> !status.contains(userVoucher.getStatus()));
+            if (!request.getStatuses().isEmpty()) {
+                listUserVoucher.removeIf(userVoucher -> !request.getStatuses().contains(userVoucher.getStatus()));
             }
 
             return listUserVoucher;

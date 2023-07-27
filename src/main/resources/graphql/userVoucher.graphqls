@@ -1,5 +1,5 @@
 type UserVoucherQuery {
-    findAllByUserIdAndStatus(userId: String!, status: [UserVoucherStatus!]!): [UserVoucher!]
+    findAllByUserIdAndStatus(request: UserVoucherFindAllByUserIdAndStatus!): [UserVoucher!]
 }
 
 type UserVoucherMutation {
@@ -22,4 +22,9 @@ type UserVoucher {
 
 enum UserVoucherStatus {
     USED, AVAILABLE, CLAIMED
+}
+
+input UserVoucherFindAllByUserIdAndStatus {
+    userId: String!
+    statuses: [UserVoucherStatus!]!
 }
