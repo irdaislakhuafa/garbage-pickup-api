@@ -48,6 +48,7 @@ public class UserController {
                 .build());
     }
 
+    @Operation(summary = "Used to login user and get jwt token to use all resource")
     @PostMapping(value = {"/login"}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RestResponse<JwtTokenResponse, Map<String, Object>>> login(@RequestBody @Valid UserLoginRequest request, Errors errors) {
         if (errors.hasErrors()) {
