@@ -210,7 +210,7 @@ public class UserServiceImpl implements UserService {
                     .saldo(request.getSaldo())
                     .point(request.getPoint())
                     .roles(roles)
-                    .isDeleted(request.isDeleted())
+                    .isDeleted(request.getIsDeleted())
                     .updatedBy(this.getCurrentUser().getId())
                     .build();
 

@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class RestResponse<DATA, MESSAGES> {
-    private MESSAGES messages;
+public class RestResponse<DATA, ERRORS> {
+    private ERRORS errors;
     private DATA data;
 }

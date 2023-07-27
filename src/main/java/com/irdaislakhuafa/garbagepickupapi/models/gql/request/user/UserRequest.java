@@ -18,47 +18,42 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @SuperBuilder
 public class UserRequest {
-    @NotBlank(message = "name: cannot be blank")
-    @NotNull(message = "name: cannot be null")
-    @NotEmpty(message = "name: cannot be empty")
+    @NotBlank(message = "cannot be blank")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
     private String name;
 
-    @NotBlank(message = "email: cannot be blank")
-    @NotNull(message = "email: cannot be null")
-    @NotEmpty(message = "email: cannot be empty")
-    @Email(message = "email: format email is not valid")
+    @NotBlank(message = "cannot be blank")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
+    @Email(message = "format email is not valid")
     private String email;
 
-    @NotBlank(message = "password: cannot be blank")
-    @NotNull(message = "password: cannot be null")
-    @NotEmpty(message = "password: cannot be empty")
+    @NotBlank(message = "cannot be blank")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
     private String password;
 
     private MultipartFile image;
 
-    @NotBlank(message = "phone: cannot be blank")
-    @NotNull(message = "phone: cannot be null")
-    @NotEmpty(message = "phone: cannot be empty")
+    @NotBlank(message = "cannot be blank")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
     private String phone;
 
-    @NotBlank(message = "address: cannot be blank")
-    @NotNull(message = "address: cannot be null")
-    @NotEmpty(message = "address: cannot be empty")
+    @NotBlank(message = "cannot be blank")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
     private String address;
 
-    @Builder.Default
-    @NotBlank(message = "saldo: cannot be blank")
-    @NotEmpty(message = "saldo: cannot be empty")
-    private int saldo = 0;
+    @NotNull(message = "cannot be null")
+    private Integer saldo;
+
+    @NotNull(message = "cannot be null")
+    private Integer point;
 
     @Builder.Default
-    @NotBlank(message = "point: cannot be blank")
-    @NotEmpty(message = "point: cannot be empty")
-    private int point = 0;
-
-    @Builder.Default
-    @NotBlank(message = "roles: cannot be blank")
-    @NotNull(message = "roles: cannot be null")
-    @NotEmpty(message = "roles: cannot be empty")
+    @NotNull(message = "cannot be null")
+    @NotEmpty(message = "cannot be empty")
     private ArrayList<UserRoles> roles = new ArrayList<>();
 }
