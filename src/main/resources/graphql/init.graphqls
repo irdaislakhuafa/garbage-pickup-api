@@ -1,5 +1,6 @@
 type Query {
     hello: HelloQuery!
+    role: RoleQuery!
     user: UserQuery!
     pickup: PickupQuery!
     trashType: TrashTypeQuery!

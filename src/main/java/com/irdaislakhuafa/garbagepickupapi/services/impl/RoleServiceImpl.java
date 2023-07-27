@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.services.impl;
 
+import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException;
 import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Role;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.role.RoleRequest;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
     public Optional<Role> save(Role request) {
         log.info("save new role with name '" + request.getName().toUpperCase() + "'");
         try {
-//			always set name role to uppercase
+            //			always set name role to uppercase
             request.setName(request.getName().toUpperCase());
             final var role = this.roleRepository.save(request);
             return Optional.ofNullable(role);
@@ -34,6 +36,29 @@ public class RoleServiceImpl implements RoleService {
             log.info("error while save new role, " + e.getMessage(), e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Role> update(Role request) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Role> delete(String s) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Role> findById(String id) {
+        final var result = this.roleRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(String.format("role with id '%s' not found", id)));
+        return Optional.of(result);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        final var results = this.roleRepository.findAll();
+        return results;
     }
 
     @Override

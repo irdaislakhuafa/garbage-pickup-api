@@ -5,6 +5,7 @@ import com.irdaislakhuafa.garbagepickupapi.controllers.gql.hello.HelloQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickup.PickupQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.pickupactivity.PickupActivityQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.receipt.ReceiptQuery;
+import com.irdaislakhuafa.garbagepickupapi.controllers.gql.role.RoleQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.trashtype.TrashTypeQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.user.UserQuery;
 import com.irdaislakhuafa.garbagepickupapi.controllers.gql.uservoucher.UserVoucherQuery;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class GraphQLQuery {
     private final HelloQuery hello;
+    private final RoleQuery role;
     private final UserQuery user;
     private final TrashTypeQuery trashType;
     private final PickupQuery pickup;
@@ -35,6 +37,11 @@ public class GraphQLQuery {
     @SchemaMapping(field = "user")
     public UserQuery userQuery() {
         return this.user;
+    }
+
+    @SchemaMapping(field = "role")
+    public RoleQuery role() {
+        return this.role;
     }
 
     @SchemaMapping(field = "trashType")
