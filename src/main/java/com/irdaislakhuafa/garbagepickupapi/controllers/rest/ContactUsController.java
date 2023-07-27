@@ -11,11 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,6 +37,15 @@ public class ContactUsController {
         final var result = this.contactUsService.save(contactUs);
         return ResponseEntity.ok(RestResponse.<ContactUs, Map<String, Object>>builder()
                 .data(result.get())
+                .build());
+    }
+
+    @Operation(summary = "Used to find list of contact us")
+    @GetMapping
+    public ResponseEntity<RestResponse<List<ContactUs>, Map<String, Object>>> findAll() {
+        final var results = this.contactUsService.findAll();
+        return ResponseEntity.ok(RestResponse.<List<ContactUs>, Map<String, Object>>builder()
+                .data(results)
                 .build());
     }
 }
