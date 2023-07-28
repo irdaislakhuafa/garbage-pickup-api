@@ -2,6 +2,7 @@ package com.irdaislakhuafa.garbagepickupapi.controllers.rest;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupCheckPriceRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupFindAllByUserIdWithRangeDateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
@@ -11,12 +12,13 @@ import com.irdaislakhuafa.garbagepickupapi.services.RestValidationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = {"/api/rest/pickups"})
@@ -76,9 +78,19 @@ public class PickupController {
                 .build());
     }
 
-    @GetMapping(value = {"/users"})
-    public ResponseEntity<RestResponse<List<Pickup>, Map<String, Object>>> findAllByUserIdAndStatus() {
-        return ResponseEntity.ok(RestResponse.<List<Pickup>, Map<String, Object>>builder()
+    @Operation(summary = "used to find list ofpickup with range date @start @end by user id")
+    @GetMapping(value = {"/users"}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<RestResponse<Set<Pickup>, Map<String, Object>>> findAllByUserIdAndStatus(@RequestBody @Valid PickupFindAllByUserIdWithRangeDateRequest request, Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(RestResponse.<Set<Pickup>, Map<String, Object>>builder()
+                            .errors(this.restValidationService.getListErrors(errors))
+                            .build());
+        }
+
+        final var results = this.pickupService.findAllByUserIdWithRange(request);
+        return ResponseEntity.ok(RestResponse.<Set<Pickup>, Map<String, Object>>builder()
+                .data(results)
                 .build());
     }
 }
