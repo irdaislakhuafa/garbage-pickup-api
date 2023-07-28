@@ -6,7 +6,7 @@ type PickupMutation {
 
 type PickupQuery {
     # @start @end is date time with format "dd/MM/yyyy HH:mm:ss"
-    findAllByUserIdWithRangeDate(userId: String!, start: String!, end: String!, status: PickupStatus): [Pickup!]
+    findAllByUserIdWithRangeDate(request: PickupFindAllByUserIdWithRangeDateRequest!): [Pickup!]
 }
 
 type Pickup {
@@ -69,4 +69,11 @@ input PickupCheckPriceRequest {
 
 type PickupCheckPriceRespone {
     price: Int!
+}
+
+input PickupFindAllByUserIdWithRangeDateRequest {
+    userId: String!
+    start: String!
+    end: String!
+    statuses: [PickupStatus!]
 }

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -72,6 +73,12 @@ public class PickupController {
         final var result = this.pickupService.checkPrice(request);
         return ResponseEntity.ok(RestResponse.<PickupCheckPriceResponse, Map<String, Object>>builder()
                 .data(result)
+                .build());
+    }
+
+    @GetMapping(value = {"/users"})
+    public ResponseEntity<RestResponse<List<Pickup>, Map<String, Object>>> findAllByUserIdAndStatus() {
+        return ResponseEntity.ok(RestResponse.<List<Pickup>, Map<String, Object>>builder()
                 .build());
     }
 }
