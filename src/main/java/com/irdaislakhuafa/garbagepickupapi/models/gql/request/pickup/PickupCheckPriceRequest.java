@@ -1,5 +1,6 @@
 package com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PickupCheckPriceRequest {
-    private int weight;
-    private double lat;
-    private double lng;
+    @NotNull(message = "cannot be null")
+    private Integer weight;
+
+    @NotNull(message = "cannot be null")
+    private Double lat;
+
+    @NotNull(message = "cannot be null")
+    private Double lng;
 }

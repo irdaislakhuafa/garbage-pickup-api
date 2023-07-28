@@ -50,7 +50,7 @@ jwt:
 app:
   config:
     date-format-layout: "dd/MM/yyyy HH:mm:ss"
-    default-pickup-price: 10000
+    default-pickup-price: 1000
     upload-dir:
       parent: /tmp
       user: /user

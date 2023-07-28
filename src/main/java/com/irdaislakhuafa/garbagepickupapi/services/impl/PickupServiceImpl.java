@@ -207,7 +207,7 @@ public class PickupServiceImpl implements PickupService {
         try {
             // TODO: add logic to determine price of pickup
             final var result = PickupCheckPriceResponse.builder()
-                    .price(defaultPickupPrice)
+                    .price(defaultPickupPrice * request.getWeight())
                     .build();
             return result;
         } catch (Exception e) {
