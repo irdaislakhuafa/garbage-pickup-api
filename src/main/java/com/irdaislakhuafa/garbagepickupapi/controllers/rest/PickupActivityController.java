@@ -11,11 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,6 +37,15 @@ public class PickupActivityController {
         final var result = this.pickupActivityService.save(pickupActivity);
         return ResponseEntity.ok(RestResponse.<PickupActivity, Map<String, Object>>builder()
                 .data(result.get())
+                .build());
+    }
+
+    @Operation(summary = "Used to find list of pickup activity by pickup id")
+    @GetMapping(value = {"/pickup/{pickupId}"})
+    public ResponseEntity<RestResponse<List<PickupActivity>, Map<String, Object>>> findAllByPickupId(@PathVariable(name = "pickupId") String pickupId) {
+        final var results = this.pickupActivityService.findAllByPickupId(pickupId);
+        return ResponseEntity.ok(RestResponse.<List<PickupActivity>, Map<String, Object>>builder()
+                .data(results)
                 .build());
     }
 }
