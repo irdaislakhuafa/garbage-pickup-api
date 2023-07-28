@@ -27,7 +27,15 @@ public class RestGeneralExceptionHandler {
         return result;
     }
 
-    @ExceptionHandler(value = {BadRequestException.class, DataAlreadyExists.class, DataNotFound.class, InvalidPassword.class, JwtTokenExpired.class, JwtTokenNotValid.class, UserNotAvailable.class})
+    @ExceptionHandler(value = {
+            BadRequestException.class,
+            DataAlreadyExists.class,
+            DataNotFound.class,
+            InvalidPassword.class,
+            JwtTokenExpired.class,
+            JwtTokenNotValid.class,
+            UserNotAvailable.class
+    })
     public ResponseEntity<?> badRequest(RuntimeException e) {
         final var errors = new HashMap<String, Object>() {{
             put("error", e.getMessage());

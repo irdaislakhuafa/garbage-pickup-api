@@ -5,9 +5,9 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.DataAlreadyExists;
 import com.irdaislakhuafa.garbagepickupapi.helpers.DistanceCalculatorHelper;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.Pickup;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.User;
-import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.UserVoucherStatus;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupCheckPriceRequest;
+import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupFindAllByUserIdWithRangeDateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup.PickupUpdateRequest;
 import com.irdaislakhuafa.garbagepickupapi.models.gql.response.PickupCheckPriceResponse;
@@ -183,17 +183,17 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
-    public Set<Pickup> findAllByUserIdWithRange(String userId, String start, String end, PickupStatus status) {
+    public Set<Pickup> findAllByUserIdWithRange(PickupFindAllByUserIdWithRangeDateRequest request) {
         try {
             final var formatter = DateTimeFormatter.ofPattern(dateFormatLayout);
-            final var startDate = LocalDateTime.parse(start, formatter);
-            final var endDate = LocalDateTime.parse(end, formatter);
+            final var startDate = LocalDateTime.parse(request.getStart(), formatter);
+            final var endDate = LocalDateTime.parse(request.getEnd(), formatter);
 
             var results = new HashSet<Pickup>();
-            if (status == null) {
-                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetween(userId, startDate, endDate);
+            if (request.getStatuses().isEmpty()) {
+                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetween(request.getUserId(), startDate, endDate);
             } else {
-                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetweenAndStatus(userId, startDate, endDate, status);
+                results = this.pickupRepository.findAllByUserIdAndCreatedAtBetweenAndStatusIn(request.getUserId(), startDate, endDate, request.getStatuses());
             }
 
             return results;
@@ -207,7 +207,7 @@ public class PickupServiceImpl implements PickupService {
         try {
             // TODO: add logic to determine price of pickup
             final var result = PickupCheckPriceResponse.builder()
-                    .price(defaultPickupPrice)
+                    .price(defaultPickupPrice * request.getWeight())
                     .build();
             return result;
         } catch (Exception e) {
@@ -285,7 +285,7 @@ public class PickupServiceImpl implements PickupService {
             throw new BadRequestException(String.format("user with id '%s' does not exist", request.getUserId()));
         }
 
-        final var trashType = this.trashTypeRepository.findById(request.getId());
+        final var trashType = this.trashTypeRepository.findById(request.getTrashTypeId());
         if (trashType.isEmpty()) {
             throw new BadRequestException(String.format("trash type with id '%s' does not exist", request.getTrashTypeId()));
         }

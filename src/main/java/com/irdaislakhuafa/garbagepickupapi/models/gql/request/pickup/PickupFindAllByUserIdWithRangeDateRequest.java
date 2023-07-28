@@ -1,50 +1,41 @@
 package com.irdaislakhuafa.garbagepickupapi.models.gql.request.pickup;
 
 import com.irdaislakhuafa.garbagepickupapi.models.entities.utils.PickupStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class PickupRequest {
+public class PickupFindAllByUserIdWithRangeDateRequest {
     @NotBlank(message = "cannot be blank")
     @NotNull(message = "cannot be null")
     @NotEmpty(message = "cannot be empty")
     private String userId;
 
+    @NotBlank(message = "cannot be blank")
     @NotNull(message = "cannot be null")
-    private PickupStatus status;
+    @NotEmpty(message = "cannot be empty")
+    @Schema(format = "date", description = "dd/MM/yyyy HH:mm:ss")
+    private String start;
 
     @NotBlank(message = "cannot be blank")
     @NotNull(message = "cannot be null")
     @NotEmpty(message = "cannot be empty")
-    private String place;
+    @Schema(format = "date", description = "dd/MM/yyyy HH:mm:ss")
+    private String end;
 
-    @NotBlank(message = "cannot be blank")
-    @NotNull(message = "cannot be null")
-    @NotEmpty(message = "cannot be empty")
-    private String trashTypeId;
-
-    @NotNull(message = "cannot be null")
-    private Integer weight;
-
-    @NotBlank(message = "cannot be blank")
-    @NotNull(message = "cannot be null")
-    @NotEmpty(message = "cannot be empty")
-    private String description;
-
-    private String userVoucherId;
-
-    @NotNull(message = "cannot be null")
-    private Double lat;
-
-    @NotNull(message = "cannot be null")
-    private Double lng;
+    @Builder.Default
+    private List<PickupStatus> statuses = new ArrayList<>();
 }
