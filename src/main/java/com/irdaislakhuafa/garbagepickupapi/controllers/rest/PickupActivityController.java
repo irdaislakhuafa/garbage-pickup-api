@@ -48,4 +48,13 @@ public class PickupActivityController {
                 .data(results)
                 .build());
     }
+
+    @Operation(summary = "Used to find list of pickup activity by pickup resi")
+    @GetMapping(value = {"/pickup/resi/{pickupResi}"})
+    public ResponseEntity<RestResponse<List<PickupActivity>, Map<String, Object>>> findAllByPickupResi(@PathVariable(name = "pickupResi") String pickupResi) {
+        final var results = this.pickupActivityService.findAllByPickupResi(pickupResi);
+        return ResponseEntity.ok(RestResponse.<List<PickupActivity>, Map<String, Object>>builder()
+                .data(results)
+                .build());
+    }
 }
