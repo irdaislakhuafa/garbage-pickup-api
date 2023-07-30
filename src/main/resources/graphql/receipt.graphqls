@@ -5,6 +5,8 @@ type ReceiptMutation {
 type ReceiptQuery {
     findById(id: String!): Receipt
     findByPickupId(pickupId: String!): Receipt
+    findAll: [Receipt!]
+    findAllByPickupId(pickupId: String!): [Receipt!]
 }
 
 type Receipt {
@@ -22,7 +24,10 @@ type Receipt {
 }
 
 enum ReceiptStatus {
-    CANCELED, AWAITING, PROCESSING, SUCCESS
+    CANCELED
+    AWAITING
+    PROCESSING
+    SUCCESS
 }
 
 input ReceiptRequest {

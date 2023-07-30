@@ -7,6 +7,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,5 +26,17 @@ public class ReceiptQuery {
     public Optional<Receipt> findByPickupId(@Argument(name = "pickupId") String pickupId) {
         final var result = this.receiptService.findByPickupId(pickupId);
         return result;
+    }
+
+    @SchemaMapping
+    public List<Receipt> findAll() {
+        final var results = this.receiptService.findAll();
+        return results;
+    }
+
+    @SchemaMapping
+    public List<Receipt> findAllByPickupId(@Argument(name = "pickupId") String pickupId) {
+        final var results = this.receiptService.findAllByPickupId(pickupId);
+        return results;
     }
 }
