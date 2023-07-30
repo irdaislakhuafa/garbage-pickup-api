@@ -63,7 +63,11 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Optional<Receipt> findById(String id) {
-        return this.receiptRepository.findById(id);
+        final var result = this.receiptRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new BadRequestException(String.format("receipt with id '%s' not found", id));
+        }
+        return result;
     }
 
     @Override

@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -42,7 +39,15 @@ public class ReceiptController {
                 .build());
     }
 
-    // used to find receipt bu receipt id
+    @Operation(summary = "Used to find receipt bu receipt id")
+    @GetMapping(value = {"/{id}"})
+    public ResponseEntity<RestResponse<Receipt, Map<String, Object>>> findById(@PathVariable(name = "id") String id) {
+        final var result = this.receiptService.findById(id);
+        return ResponseEntity.ok(RestResponse.<Receipt, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
+
     // used to find receipt by pickup id
 
 }
