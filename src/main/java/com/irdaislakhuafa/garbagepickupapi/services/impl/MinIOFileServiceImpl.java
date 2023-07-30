@@ -4,6 +4,7 @@ import com.irdaislakhuafa.garbagepickupapi.exceptions.custom.BadRequestException
 import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
 import io.minio.*;
 import io.minio.http.Method;
+import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -94,6 +95,12 @@ public class MinIOFileServiceImpl implements MinIOFileService {
         final var uri = new URI(url);
         final var fileName = Paths.get(uri.getPath()).getFileName().toString();
         return fileName;
+    }
+
+    @Override
+    public Iterable<Result<Item>> findAllObjects(ListObjectsArgs args) {
+        final var results = this.minioClient.listObjects(args);
+        return results;
     }
 
     @Override

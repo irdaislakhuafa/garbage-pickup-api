@@ -2,6 +2,10 @@ package com.irdaislakhuafa.garbagepickupapi.schedullers;
 
 import com.irdaislakhuafa.garbagepickupapi.repository.VoucherRepository;
 import com.irdaislakhuafa.garbagepickupapi.services.MinIOFileService;
+import io.minio.ListObjectsArgs;
+import io.minio.MinioClient;
+import io.minio.RemoveObjectsArgs;
+import io.minio.messages.DeleteObject;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +22,7 @@ import java.time.LocalDateTime;
 public class VoucherScheduller {
     private final MinIOFileService minIOFileService;
     private final VoucherRepository voucherRepository;
+    private final MinioClient minioClient;
 
     @Value(value = "${minio.buckets.vouchers}")
     private String BUCKET_VOUCHERS;
@@ -58,5 +64,58 @@ public class VoucherScheduller {
         // save all users
         this.voucherRepository.saveAll(listVoucher);
         log.info("success update presigned url for image vouchers");
+    }
+
+    //    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "0 0 0 1 * *")
+    public void removeUnusedImage() {
+        log.info("[{}] removing unused files", this.BUCKET_VOUCHERS);
+        try {
+            // find all object files from bucket
+            final var listObjectFiles = this.minIOFileService.findAllObjects(ListObjectsArgs.builder()
+                    .bucket(this.BUCKET_VOUCHERS)
+                    .build());
+
+            // find all data from table contact us
+            final var listVouchers = this.voucherRepository.findAllByIsDeleted(false);
+
+            // filter all file names
+            final var listVouchersImageFiles = new ArrayList<String>();
+            listVouchers.forEach(contactUs -> {
+                try {
+                    if (contactUs.getImage() != null) {
+                        if (!contactUs.getImage().isEmpty() && !contactUs.getImage().isBlank()) {
+                            final var imageFileName = this.minIOFileService.getFileNameFromPresignedUrl(contactUs.getImage());
+                            listVouchersImageFiles.add(imageFileName);
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                }
+            });
+
+            // check files, and remove it from bucket if file name doesn't exist in database
+            final var listToBeDeleted = new ArrayList<DeleteObject>();
+            for (final var item : listObjectFiles) {
+                final var fileName = item.get().objectName();
+                if (!listVouchersImageFiles.contains(fileName)) {
+                    listToBeDeleted.add(new DeleteObject(fileName));
+                }
+            }
+
+            // delete all unused files
+            final var listDeletedObjects = this.minioClient.removeObjects(RemoveObjectsArgs.builder()
+                    .bucket(this.BUCKET_VOUCHERS)
+                    .objects(listToBeDeleted)
+                    .build());
+
+            for (final var err : listDeletedObjects) {
+                log.error("error deleting object {}/{} : {}", err.get().bucketName(), err.get().objectName(), err.get().message());
+            }
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        log.info("[{}] done", this.BUCKET_VOUCHERS);
     }
 }
