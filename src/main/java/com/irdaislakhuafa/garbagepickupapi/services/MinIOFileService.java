@@ -1,5 +1,8 @@
 package com.irdaislakhuafa.garbagepickupapi.services;
 
+import io.minio.ListObjectsArgs;
+import io.minio.Result;
+import io.minio.messages.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,8 @@ public interface MinIOFileService extends FileService {
     String getPresignedUrl(PresignedUrl presignedUrl) throws Exception;
 
     String getFileNameFromPresignedUrl(String url) throws Exception;
+
+    Iterable<Result<Item>> findAllObjects(ListObjectsArgs args);
 
     @Data
     @NoArgsConstructor
