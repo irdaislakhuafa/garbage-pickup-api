@@ -48,6 +48,12 @@ public class ReceiptController {
                 .build());
     }
 
-    // used to find receipt by pickup id
-
+    @Operation(summary = "Used to find receipt by pickup id")
+    @GetMapping(value = {"/pickups/{pickupId}"})
+    public ResponseEntity<RestResponse<Receipt, Map<String, Object>>> findByPickupId(@PathVariable(name = "pickupId") String pickupId) {
+        final var result = this.receiptService.findByPickupId(pickupId);
+        return ResponseEntity.ok(RestResponse.<Receipt, Map<String, Object>>builder()
+                .data(result.get())
+                .build());
+    }
 }

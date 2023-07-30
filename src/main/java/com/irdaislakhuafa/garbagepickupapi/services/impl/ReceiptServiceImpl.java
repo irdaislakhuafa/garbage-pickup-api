@@ -100,6 +100,9 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public Optional<Receipt> findByPickupId(String pickupId) {
         final var result = this.receiptRepository.findByPickupId(pickupId);
+        if (result.isEmpty()) {
+            throw new BadRequestException(String.format("receipt for pickup id '%s' not found", pickupId));
+        }
         return result;
     }
 }
