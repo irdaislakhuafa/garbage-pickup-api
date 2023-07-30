@@ -1,16 +1,14 @@
 package com.irdaislakhuafa.garbagepickupapi.controllers.gql.receipt;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.irdaislakhuafa.garbagepickupapi.models.entities.Receipt;
+import com.irdaislakhuafa.garbagepickupapi.services.ReceiptService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
-import com.irdaislakhuafa.garbagepickupapi.models.entities.Receipt;
-import com.irdaislakhuafa.garbagepickupapi.services.ReceiptService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +31,12 @@ public class ReceiptQuery {
     @SchemaMapping
     public List<Receipt> findAll() {
         final var results = this.receiptService.findAll();
+        return results;
+    }
+
+    @SchemaMapping
+    public List<Receipt> findAllByPickupId(@Argument(name = "pickupId") String pickupId) {
+        final var results = this.receiptService.findAllByPickupId(pickupId);
         return results;
     }
 }

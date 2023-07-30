@@ -66,4 +66,12 @@ public class ReceiptController {
                 .data(result.get())
                 .build());
     }
+
+    @GetMapping(value = {"/pickups/all/{pickupId}"})
+    public ResponseEntity<RestResponse<List<Receipt>, Map<String, Object>>> findAllByPickupId(@PathVariable(name = "pickupId") String pickupId) {
+        final var results = this.receiptService.findAllByPickupId(pickupId);
+        return ResponseEntity.ok(RestResponse.<List<Receipt>, Map<String, Object>>builder()
+                .data(results)
+                .build());
+    }
 }

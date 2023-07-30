@@ -109,7 +109,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public List<Receipt> findAllByPickupId(String pickupId) {
-        final var results = this.receiptRepository.findAll();
-        return null;
+        final var results = this.receiptRepository.findAllByPickupId(pickupId);
+        return results;
     }
 }

@@ -1,35 +1,36 @@
 type ReceiptMutation {
-  save(request: ReceiptRequest!): Receipt
+    save(request: ReceiptRequest!): Receipt
 }
 
 type ReceiptQuery {
-  findById(id: String!): Receipt
-  findByPickupId(pickupId: String!): Receipt
-  findAll: [Receipt!]
+    findById(id: String!): Receipt
+    findByPickupId(pickupId: String!): Receipt
+    findAll: [Receipt!]
+    findAllByPickupId(pickupId: String!): [Receipt!]
 }
 
 type Receipt {
-  id: String!
-  status: ReceiptStatus!
-  point: Int!
-  pickup: Pickup!
-  createdAt: String! # DD/MM/YYYY HH:MM:ss
-  createdBy: String!
-  updatedAt: String
-  updatedBy: String
-  deletedAt: String
-  deletedBy: String
-  isDeleted: Boolean!
+    id: String!
+    status: ReceiptStatus!
+    point: Int!
+    pickup: Pickup!
+    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdBy: String!
+    updatedAt: String
+    updatedBy: String
+    deletedAt: String
+    deletedBy: String
+    isDeleted: Boolean!
 }
 
 enum ReceiptStatus {
-  CANCELED
-  AWAITING
-  PROCESSING
-  SUCCESS
+    CANCELED
+    AWAITING
+    PROCESSING
+    SUCCESS
 }
 
 input ReceiptRequest {
-  status: ReceiptStatus!
-  pickupId: String!
+    status: ReceiptStatus!
+    pickupId: String!
 }
