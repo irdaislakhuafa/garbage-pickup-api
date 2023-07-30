@@ -72,7 +72,8 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public List<Receipt> findAll() {
-        return null;
+        final var results = this.receiptRepository.findAll();
+        return results;
     }
 
     @Override
@@ -104,5 +105,11 @@ public class ReceiptServiceImpl implements ReceiptService {
             throw new BadRequestException(String.format("receipt for pickup id '%s' not found", pickupId));
         }
         return result;
+    }
+
+    @Override
+    public List<Receipt> findAllByPickupId(String pickupId) {
+        final var results = this.receiptRepository.findAll();
+        return null;
     }
 }
