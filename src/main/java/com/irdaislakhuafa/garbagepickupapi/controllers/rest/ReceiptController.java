@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,7 +23,16 @@ public class ReceiptController {
     private final ReceiptService receiptService;
     private RestValidationService restValidationService;
 
-    @Operation(summary = "used to save or create new receipt")
+    @Operation(summary = "Used to find all receipt")
+    @GetMapping
+    public ResponseEntity<RestResponse<List<Receipt>, Map<String, Object>>> findAll() {
+        final var results = this.receiptService.findAll();
+        return ResponseEntity.ok(RestResponse.<List<Receipt>, Map<String, Object>>builder()
+                .data(results)
+                .build());
+    }
+
+    @Operation(summary = "Used to save or create new receipt")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RestResponse<Receipt, Map<String, Object>>> save(@RequestBody @Valid ReceiptRequest request, Errors errors) {
         if (errors.hasErrors()) {
