@@ -14,6 +14,71 @@
       "name": "app.config.date-format-layout",
       "type": "java.lang.String",
       "description": "A global date format layout for my app"
+    },
+    {
+      "name": "app.config.default-pickup-price",
+      "type": "java.lang.String",
+      "description": "A description for 'app.config.default-pickup-price'"
+    },
+    {
+      "name": "app.config.upload-dir.parent",
+      "type": "java.lang.String",
+      "description": "A description for 'app.config.upload-dir.parent'"
+    },
+    {
+      "name": "app.config.upload-dir.user",
+      "type": "java.lang.String",
+      "description": "A description for 'app.config.upload-dir.user'"
+    },
+    {
+      "name": "app.config.upload-dir.voucher",
+      "type": "java.lang.String",
+      "description": "A description for 'app.config.upload-dir.voucher'"
+    },
+    {
+      "name": "app.config.upload-dir.contactUs",
+      "type": "java.lang.String",
+      "description": "A description for 'app.config.upload-dir.contactUs'"
+    },
+    {
+      "name": "minio.url",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.url'"
+    },
+    {
+      "name": "minio.access-key",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.access-key'"
+    },
+    {
+      "name": "minio.secret-key",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.secret-key'"
+    },
+    {
+      "name": "minio.presigned-url.expired-in.seconds",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.presigned-url.expired-in.seconds'"
+    },
+    {
+      "name": "minio.buckets.defaults",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.buckets.defaults'"
+    },
+    {
+      "name": "minio.buckets.users",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.buckets.users'"
+    },
+    {
+      "name": "minio.buckets.vouchers",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.buckets.vouchers'"
+    },
+    {
+      "name": "minio.buckets.contact-us",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.buckets.contact-us'"
     }
   ]
 }
