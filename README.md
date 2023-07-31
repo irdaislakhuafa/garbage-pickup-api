@@ -2,15 +2,23 @@
 
 This is `Backend API` for `Garbage Pickup App` is a API to manage operations related to Garbage Pickup App throught a Mobile Application. This API provides two types of API, namely REST API and GraphQL API, which enable client applications to interact with server efficiently. This application was created as a requirement to complete mu undergraduate education.
 
-## Entity design
-
-<iframe width="560" height="315" src='https://dbdiagram.io/embed/649fab0202bd1c4a5e55430f'></iframe>
-
 ## Overview of app features
 
 This application allows the client to manage some of the data below
 
 - `user`
+- `pickup`
+- `pickup activity`
+- `voucher`
+- `user voucher`
+- `trash type`
+- `role`
+- `receipt`
+- `contact us`
+
+## Entity design
+
+You can see design of entities for this Backend API [here](https://dbdiagram.io/embed/649fab0202bd1c4a5e55430f)
 
 ## Technology used in this API
 
