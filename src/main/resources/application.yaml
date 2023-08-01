@@ -11,14 +11,14 @@ spring:
     username: postgres
     password: postgres
   graphql:
-    path: /gql/graphql
+    path: /api/gql/graphql
     cors:
       allowed-headers: "*"
       allowed-methods: GET,POST
       allowed-origins: "*"
     graphiql:
       enabled: true
-      path: /gql/graphiql
+      path: /api/gql/graphiql
     schema:
       file-extensions: .graphqls,.gqls,.graphql,.gql
       locations: classpath:graphql/**/
