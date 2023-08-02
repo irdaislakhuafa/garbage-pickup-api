@@ -11,7 +11,7 @@ type ContactUs {
     image: String!
     title: String!
     description: String!
-    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdAt: String!
     createdBy: String!
     updatedAt: String
     updatedBy: String

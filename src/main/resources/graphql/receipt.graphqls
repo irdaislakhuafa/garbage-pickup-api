@@ -14,7 +14,7 @@ type Receipt {
     status: ReceiptStatus!
     point: Int!
     pickup: Pickup!
-    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdAt: String!
     createdBy: String!
     updatedAt: String
     updatedBy: String
