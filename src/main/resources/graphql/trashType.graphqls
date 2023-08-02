@@ -11,7 +11,7 @@ type TrashType {
     id: String!
     name: String!
     description: String!
-    createdAt: String! # DD/MM/YYYY HH:MM:ss
+    createdAt: String!
     createdBy: String!
     updatedAt: String
     updatedBy: String
