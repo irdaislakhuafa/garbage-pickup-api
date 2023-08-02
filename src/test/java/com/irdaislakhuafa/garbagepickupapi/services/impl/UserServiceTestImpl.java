@@ -35,7 +35,6 @@ public class UserServiceTestImpl implements UserServiceTest<User> {
             .image("https://empty.com")
             .phone("080000000000")
             .address("example user address")
-            .saldo(0)
             .point(0)
             .build();
     private static final User user = User.builder()
@@ -46,7 +45,6 @@ public class UserServiceTestImpl implements UserServiceTest<User> {
             .image("https://empty.com")
             .phone("080000000000")
             .address("example user address")
-            .saldo(0)
             .point(0)
             .build();
     @MockBean

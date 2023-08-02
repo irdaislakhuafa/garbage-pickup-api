@@ -46,8 +46,6 @@ public class UserRequest {
     @NotEmpty(message = "cannot be empty")
     private String address;
 
-    @NotNull(message = "cannot be null")
-    private Integer saldo;
 
     @NotNull(message = "cannot be null")
     private Integer point;

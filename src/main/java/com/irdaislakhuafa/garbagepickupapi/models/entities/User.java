@@ -38,9 +38,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 5000)
     private String address;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private int saldo = 0;
 
     @Column(nullable = false)
     @Builder.Default

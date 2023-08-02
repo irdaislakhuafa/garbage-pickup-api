@@ -89,7 +89,6 @@ public class UserServiceImpl implements UserService {
                     .image(imageLink)
                     .phone(request.getPhone())
                     .address(request.getAddress())
-                    .saldo(request.getSaldo())
                     .point(request.getPoint())
                     .roles(roles)
                     .createdBy(this.getCurrentUser().getId())
@@ -141,7 +140,6 @@ public class UserServiceImpl implements UserService {
         user.get().setImage(request.getImage());
         user.get().setPhone(request.getPhone());
         user.get().setAddress(request.getAddress());
-        user.get().setSaldo(request.getSaldo());
         user.get().setPoint(request.getPoint());
         user.get().setRoles(request.getRoles());
         user.get().setDeleted(request.isDeleted());
@@ -207,7 +205,6 @@ public class UserServiceImpl implements UserService {
                     .email(request.getEmail())
                     .phone(request.getPhone())
                     .address(request.getAddress())
-                    .saldo(request.getSaldo())
                     .point(request.getPoint())
                     .roles(roles)
                     .isDeleted(request.getIsDeleted())
