@@ -17,7 +17,6 @@ type User {
     image: String!
     phone: String!
     address: String!
-    saldo: Int!
     point: Int!
     roles: [Role!]!
     lastLocation: LastLocation!
@@ -43,7 +42,6 @@ input UserRequest {
     image: Upload
     phone: String!
     address: String!
-    saldo: Int!
     point: Int!
     roles: [Roles!]!
 }
@@ -67,7 +65,6 @@ input UserUpdateRequest {
     image: Upload # leave blank if you don't want to change the image
     phone: String!
     address: String!
-    saldo: Int!
     point: Int!
     roles: [Roles!]!
     isDeleted: Boolean!

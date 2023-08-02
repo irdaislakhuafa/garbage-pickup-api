@@ -46,9 +46,6 @@ public class UserUpdateRequest {
     @NotEmpty(message = "cannot be empty")
     private String address;
 
-    @NotNull(message = "cannot be null")
-    @Builder.Default
-    private Integer saldo = 0;
 
     @NotNull(message = "cannot be null")
     @Builder.Default
