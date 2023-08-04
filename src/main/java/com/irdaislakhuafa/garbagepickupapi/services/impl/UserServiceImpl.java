@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,6 +54,8 @@ public class UserServiceImpl implements UserService {
             final var result = this.userRepository.save(user);
 
             return Optional.of(result);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException(String.format("user with email '%s' already exists", user.getEmail()));
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
