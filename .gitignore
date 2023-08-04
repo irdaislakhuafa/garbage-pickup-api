@@ -35,3 +35,6 @@ build/
 .attach*
 *.log
 application.yaml
+*.png
+*.jpg
+*.jpeg
