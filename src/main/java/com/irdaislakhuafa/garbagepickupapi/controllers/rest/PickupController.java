@@ -78,8 +78,8 @@ public class PickupController {
                 .build());
     }
 
-    @Operation(summary = "used to find list ofpickup with range date @start @end by user id")
-    @GetMapping(value = {"/users"}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(summary = "used to find list of pickup with range date @start @end by user id")
+    @PostMapping(value = {"/users"}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RestResponse<Set<Pickup>, Map<String, Object>>> findAllByUserIdAndStatus(@RequestBody @Valid PickupFindAllByUserIdWithRangeDateRequest request, Errors errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest()
