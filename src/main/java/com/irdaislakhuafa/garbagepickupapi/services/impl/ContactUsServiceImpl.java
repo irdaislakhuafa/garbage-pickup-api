@@ -86,6 +86,7 @@ public class ContactUsServiceImpl implements ContactUsService {
             final var result = ContactUs.builder()
                     .image(imageLink)
                     .title(request.getTitle())
+                    .value(request.getValue())
                     .description(request.getDescription())
                     .build();
             return result;
