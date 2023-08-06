@@ -20,6 +20,9 @@ public class ContactUs extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
+    
+    @Column(nullable = false)
+    private String value;
 
     @Column(nullable = false, length = 5000)
     private String description;
