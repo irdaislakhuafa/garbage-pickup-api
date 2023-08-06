@@ -10,6 +10,7 @@ type ContactUs {
     id: String!
     image: String!
     title: String!
+    value: String!
     description: String!
     createdAt: String!
     createdBy: String!
@@ -23,5 +24,6 @@ type ContactUs {
 input ContactUsRequest {
     image: Upload!
     title: String!
+    value: String!
     description: String!
 }

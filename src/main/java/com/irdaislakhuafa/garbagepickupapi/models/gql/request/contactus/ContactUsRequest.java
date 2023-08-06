@@ -25,5 +25,10 @@ public class ContactUsRequest {
     @NotBlank(message = "cannot be blank")
     @NotEmpty(message = "cannot be empty")
     @NotNull(message = "cannot be null")
+    private String value;
+
+    @NotBlank(message = "cannot be blank")
+    @NotEmpty(message = "cannot be empty")
+    @NotNull(message = "cannot be null")
     private String description;
 }
