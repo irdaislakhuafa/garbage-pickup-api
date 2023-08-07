@@ -30,7 +30,7 @@ public class ContactUsServiceImpl implements ContactUsService {
     private String BUCKET_CONTACT_US;
 
     @Override
-    @Transactional
+
     public Optional<ContactUs> save(ContactUs request) {
         try {
             request.setCreatedAt(LocalDateTime.now());
@@ -69,7 +69,7 @@ public class ContactUsServiceImpl implements ContactUsService {
     }
 
     @Override
-    @Transactional
+
     public ContactUs fromRequestToEntity(ContactUsRequest request) {
         try {
             if (request.getImage() == null) {

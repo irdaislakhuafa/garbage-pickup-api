@@ -29,14 +29,15 @@ public class VoucherScheduller {
 
     // https://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm
     @Scheduled(cron = "0 0 0 * * *") // at 00:00:00 each day
-    @Transactional
+
     public void updateImagePresignedUrl() throws Exception {
         log.info("updating presigned url for image vouchers");
 
         // get all voucher with is deleted false
         var listVoucher = this.voucherRepository.findAllByIsDeleted(false);
 
-        // override value of listVouchers (peek is like map but not change return result structure)
+        // override value of listVouchers (peek is like map but not change return result
+        // structure)
         listVoucher = listVoucher.stream().peek(voucher -> {
             try {
                 if (voucher.getImage() != null) {
@@ -66,7 +67,7 @@ public class VoucherScheduller {
         log.info("success update presigned url for image vouchers");
     }
 
-    //    @Scheduled(cron = "1 * * * * *")
+    // @Scheduled(cron = "1 * * * * *")
     @Scheduled(cron = "0 0 0 1 * *")
     public void removeUnusedImage() {
         log.info("[{}] removing unused files", this.BUCKET_VOUCHERS);
@@ -85,7 +86,8 @@ public class VoucherScheduller {
                 try {
                     if (contactUs.getImage() != null) {
                         if (!contactUs.getImage().isEmpty() && !contactUs.getImage().isBlank()) {
-                            final var imageFileName = this.minIOFileService.getFileNameFromPresignedUrl(contactUs.getImage());
+                            final var imageFileName = this.minIOFileService
+                                    .getFileNameFromPresignedUrl(contactUs.getImage());
                             listVouchersImageFiles.add(imageFileName);
                         }
                     }
@@ -110,7 +112,8 @@ public class VoucherScheduller {
                     .build());
 
             for (final var err : listDeletedObjects) {
-                log.error("error deleting object {}/{} : {}", err.get().bucketName(), err.get().objectName(), err.get().message());
+                log.error("error deleting object {}/{} : {}", err.get().bucketName(), err.get().objectName(),
+                        err.get().message());
             }
 
         } catch (Exception e) {

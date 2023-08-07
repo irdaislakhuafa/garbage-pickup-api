@@ -49,7 +49,6 @@ public class PickupServiceImpl implements PickupService {
     private int defaultPickupPrice;
 
     @Override
-    @Transactional
     public Optional<Pickup> save(Pickup request) {
         try {
             // added logic to select courier
@@ -157,7 +156,6 @@ public class PickupServiceImpl implements PickupService {
     }
 
     @Override
-    @Transactional
     public Optional<Pickup> update(Pickup request) {
         try {
             final var pickup = this.pickupRepository.findById(request.getId());

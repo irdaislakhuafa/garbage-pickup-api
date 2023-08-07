@@ -78,7 +78,8 @@ public class UserVoucherServiceImpl implements UserVoucherService {
             // added saved non-existing user voucher to listUserVoucher
             listUserVoucher.addAll(savedNonExistingUserVoucher);
 
-            // if status parameter is not empty, remove each element userVoucher if status doesn't contain in status from parameter
+            // if status parameter is not empty, remove each element userVoucher if status
+            // doesn't contain in status from parameter
             if (!request.getStatuses().isEmpty()) {
                 listUserVoucher.removeIf(userVoucher -> !request.getStatuses().contains(userVoucher.getStatus()));
             }
@@ -94,7 +95,7 @@ public class UserVoucherServiceImpl implements UserVoucherService {
      * @return {@code  List<UserVoucher>} the list of vouchers that were exchanged
      */
     @Override
-    @Transactional
+
     public List<UserVoucher> exchange(UserVoucherExchangeRequest request) {
         try {
             final var listUserVoucher = this.userVoucherRepository.findAllByIdIsIn(request.getListId());
@@ -111,7 +112,8 @@ public class UserVoucherServiceImpl implements UserVoucherService {
                     .toList();
 
             if (!listAlreadyClaimed.isEmpty()) {
-                throw new BadRequestException(String.format("user voucher with id %s already claimd", listAlreadyClaimed));
+                throw new BadRequestException(
+                        String.format("user voucher with id %s already claimd", listAlreadyClaimed));
             }
 
             // check is user voucher with id from parameter is exists?
@@ -131,7 +133,8 @@ public class UserVoucherServiceImpl implements UserVoucherService {
             // check point of user
             final var user = this.userRepository.findById(request.getUserId());
             if (user.isEmpty()) {
-                throw new BadRequestException(String.format("user with id '%s' not found, please register first", request.getUserId()));
+                throw new BadRequestException(
+                        String.format("user with id '%s' not found, please register first", request.getUserId()));
             }
 
             listUserVoucher.forEach(userVoucher -> {
@@ -139,7 +142,9 @@ public class UserVoucherServiceImpl implements UserVoucherService {
                 if (user.get().getPoint() >= voucher.getPointsNeeded()) {
                     user.get().setPoint(user.get().getPoint() - voucher.getPointsNeeded());
                 } else {
-                    throw new BadRequestException(String.format("user point is %d but the voucher with id '%s' need %d point", user.get().getPoint(), voucher.getId(), voucher.getPointsNeeded()));
+                    throw new BadRequestException(
+                            String.format("user point is %d but the voucher with id '%s' need %d point",
+                                    user.get().getPoint(), voucher.getId(), voucher.getPointsNeeded()));
                 }
             });
             this.userRepository.save(user.get());

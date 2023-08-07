@@ -135,7 +135,8 @@ public class UserServiceImpl implements UserService {
     public Optional<User> update(User request) {
         final var user = this.userRepository.findById(request.getId());
         if (user.isEmpty()) {
-            throw new DataNotFound(String.format("user with id '%s' not found, please register first", request.getId()));
+            throw new DataNotFound(
+                    String.format("user with id '%s' not found, please register first", request.getId()));
         }
 
         user.get().setName(request.getName());
@@ -157,7 +158,8 @@ public class UserServiceImpl implements UserService {
     public Optional<User> update(UserUpdateRequest request) {
         final var user = this.userRepository.findById(request.getId());
         if (user.isEmpty()) {
-            throw new DataNotFound(String.format("user with id '%s' not found, please register first", request.getId()));
+            throw new DataNotFound(
+                    String.format("user with id '%s' not found, please register first", request.getId()));
         }
 
         final var converted = this.fromUpdateRequestToEntity(request);
@@ -188,7 +190,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+
     public User fromUpdateRequestToEntity(UserUpdateRequest request) {
         try {
 

@@ -73,7 +73,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Transactional
+
     public Voucher fromRequestToEntity(VoucherRequest request) {
         try {
             final var result = Voucher.builder()
