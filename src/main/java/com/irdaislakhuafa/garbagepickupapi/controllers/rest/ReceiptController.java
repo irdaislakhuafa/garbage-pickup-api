@@ -8,6 +8,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.RestValidationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -19,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = {"/api/rest/receipts"})
 @RequiredArgsConstructor
+@Slf4j
 public class ReceiptController {
     private final ReceiptService receiptService;
     private RestValidationService restValidationService;

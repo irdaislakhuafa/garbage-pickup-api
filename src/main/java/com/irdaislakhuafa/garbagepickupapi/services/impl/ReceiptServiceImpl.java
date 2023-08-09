@@ -11,6 +11,7 @@ import com.irdaislakhuafa.garbagepickupapi.services.ReceiptService;
 import com.irdaislakhuafa.garbagepickupapi.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +100,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Cacheable(value = {"receipt"})
     public Optional<Receipt> findByPickupId(String pickupId) {
         final var result = this.receiptRepository.findByPickupId(pickupId);
         if (result.isEmpty()) {

@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  node-exporter:
+    container_name: node-exporter
+    image: bitnami/node-exporter
+    ports:
+      - 9100:9100
+    networks:
+        - monitoring
+
+  prometheus:
+    container_name: prometheus
+    image: irdaislakhuafa/prometheus:node-exporter
+    ports:
+      - 9090:9090
+    networks:
+      - monitoring
+  
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    network_mode: host
+
+networks:
+  monitoring: {}
