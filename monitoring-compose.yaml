@@ -1,6 +1,14 @@
 version: '3'
 services:
 
+  influxdb:
+    container_name: influxdb
+    image: influxdb:alpine
+    ports:
+      - 8086:8086
+    networks:
+      - monitoring
+
   node-exporter:
     container_name: node-exporter
     image: bitnami/node-exporter
